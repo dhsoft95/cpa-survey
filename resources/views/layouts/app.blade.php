@@ -49,7 +49,7 @@
                 <div class="flex">
                     <div class="flex-shrink-0 flex items-center">
                         <a href="{{ route('surveys.index') }}" class="text-2xl font-bold text-blue-600">
-                            CPA Surveys
+                            EI CPA Career Success Survey
                         </a>
                     </div>
                 </div>
