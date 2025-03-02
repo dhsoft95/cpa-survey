@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Notifications\Notification;
 
 class SurveyResponseResource extends Resource
 {
@@ -37,6 +38,11 @@ class SurveyResponseResource extends Resource
                 Forms\Components\TextInput::make('completion_code')
                     ->required()
                     ->maxLength(255)
+                    ->disabled(),
+
+                Forms\Components\TextInput::make('total_score')
+                    ->label('Total Score')
+                    ->numeric()
                     ->disabled(),
 
                 Forms\Components\Toggle::make('is_winner')
@@ -72,6 +78,10 @@ class SurveyResponseResource extends Resource
                     ->searchable()
                     ->copyable(),
 
+                Tables\Columns\TextColumn::make('total_score')
+                    ->label('Score')
+                    ->sortable(),
+
                 Tables\Columns\IconColumn::make('is_winner')
                     ->label('Winner')
                     ->boolean(),
@@ -89,6 +99,7 @@ class SurveyResponseResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('total_score', 'desc')
             ->filters([
                 Tables\Filters\SelectFilter::make('survey')
                     ->relationship('survey', 'title'),
@@ -123,6 +134,18 @@ class SurveyResponseResource extends Resource
                     ->action(function ($record) {
                         $record->update(['is_winner' => !$record->is_winner]);
                     }),
+                // Add action to calculate/recalculate score
+                Tables\Actions\Action::make('calculate_score')
+                    ->label('Calculate Score')
+                    ->icon('heroicon-o-calculator')
+                    ->color('warning')
+                    ->action(function (SurveyResponse $record) {
+                        $score = $record->calculateScore();
+                        Notification::make()
+                            ->title("Score calculated: {$score}")
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -135,14 +158,27 @@ class SurveyResponseResource extends Resource
                         ->icon('heroicon-o-x-circle')
                         ->color('danger')
                         ->action(fn ($records) => $records->each->update(['is_winner' => false])),
+                    Tables\Actions\BulkAction::make('calculate_scores')
+                        ->label('Calculate Scores')
+                        ->icon('heroicon-o-calculator')
+                        ->action(function ($records) {
+                            foreach ($records as $record) {
+                                $record->calculateScore();
+                            }
+                            Notification::make()
+                                ->title("Calculated scores for {$records->count()} responses")
+                                ->success()
+                                ->send();
+                        }),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
     }
+
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\AnswersRelationManager::class,
         ];
     }
 

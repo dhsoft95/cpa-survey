@@ -2,6 +2,11 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\LatestWinnersWidget;
+use App\Filament\Widgets\SurveyScoreDistributionWidget;
+use App\Filament\Widgets\SurveyStatsWidget;
+use App\Filament\Widgets\TopQuestionsWidget;
+use App\Models\Survey;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -35,10 +40,13 @@ class AdminPanelProvider extends PanelProvider
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+//            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+            SurveyStatsWidget::class,
+                LatestWinnersWidget::class,
+                SurveyScoreDistributionWidget::class,
+                TopQuestionsWidget::class,
+
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -1,59 +1,103 @@
 <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header Section with Updated Title and Description -->
     <div class="mb-12 text-center">
-        <div class="inline-block bg-indigo-100 rounded-full p-3 mb-4">
-            <svg class="w-12 h-12 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <div class="inline-block bg-gradient-to-r from-blue-100 to-indigo-100 rounded-full p-4 mb-5 shadow-lg">
+            <svg class="w-14 h-14 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
             </svg>
         </div>
-        <h1 class="text-4xl font-bold text-gray-900 mb-3">Shape the Future of CPA</h1>
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">EI CPA Career Success Survey</h1>
         <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Share your insights through our surveys and contribute to the profession's evolution. Earn rewards while making an impact!
+            Share your experiences as a CPA professional and help research on emotional intelligence and career success.
+            <span class="block mt-2 font-medium">Complete the survey for a chance to win rewards and receive insights on EI's impact!</span>
         </p>
     </div>
 
     @if($surveys->isEmpty())
-        <div class="bg-white rounded-xl shadow-lg p-8 text-center max-w-2xl mx-auto">
-            <svg class="w-20 h-20 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-            </svg>
-            <p class="text-gray-500 text-xl font-light">New surveys coming soon!<br>Stay tuned for opportunities to share your perspective.</p>
+        <!-- Empty State with Updated Text -->
+        <div class="bg-white rounded-2xl shadow-xl p-10 text-center max-w-2xl mx-auto border border-gray-100">
+            <div class="bg-blue-50 rounded-full p-5 w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                <svg class="w-12 h-12 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">No Active Surveys</h2>
+            <p class="text-gray-500 text-lg font-light">There are currently no active surveys available.<br>Please check back later for future research opportunities.</p>
+            <div class="mt-8">
+                <button class="px-5 py-3 bg-gray-100 rounded-lg text-gray-600 font-medium hover:bg-gray-200 transition-all">
+                    Check Back Soon
+                </button>
+            </div>
         </div>
     @else
+        <!-- Survey Cards Grid with Updated Wording -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($surveys as $survey)
-                <div class="bg-white rounded-xl shadow-lg transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl group">
-                    <div class="p-6">
-                        <div class="flex items-center mb-4">
-                            <div class="bg-blue-100 p-2 rounded-lg mr-3">
-                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <div class="bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:shadow-2xl group border border-gray-100">
+                    <!-- Card Header with Badge -->
+                    <div class="relative">
+                        <div class="h-6 bg-gradient-to-r from-blue-500 to-indigo-600"></div>
+                        <div class="absolute -bottom-8 left-6">
+                            <div class="bg-gradient-to-br from-blue-500 to-indigo-600 p-4 rounded-xl shadow-lg">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
                             </div>
-                            <h2 class="text-xl font-bold text-gray-900 tracking-tight">{{ $survey->title }}</h2>
                         </div>
+                    </div>
+
+                    <!-- Card Content -->
+                    <div class="p-6 pt-12">
+                        <h2 class="text-xl font-bold text-gray-900 tracking-tight mb-3 group-hover:text-blue-600 transition-colors">{{ $survey->title }}</h2>
 
                         <p class="text-gray-600 line-clamp-3 mb-6 leading-relaxed">
                             {{ $survey->description }}
                         </p>
 
-                        <div class="flex justify-between items-center border-t border-gray-100 pt-4">
-                            <div class="flex items-center text-sm text-gray-500">
-                                <svg class="w-5 h-5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
-                                </svg>
-                                <span>{{ $survey->questions->count() }}</span>
+                        <!-- Card Footer -->
+                        <div class="flex justify-between items-center border-t border-gray-100 pt-4 mt-4">
+                            <div class="flex items-center space-x-4">
+                                <!-- Questions Count -->
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <svg class="w-5 h-5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                                    </svg>
+                                    <span>{{ $survey->questions->count() }} questions</span>
+                                </div>
+
+                                <!-- Time Estimate -->
+                                <div class="flex items-center text-sm text-gray-500">
+                                    <svg class="w-5 h-5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span>~{{ ceil($survey->questions->count() / 5) }} min</span>
+                                </div>
                             </div>
-                            <a href="{{ route('surveys.take', $survey) }}"
-                               class="inline-flex items-center px-5 py-2.5 bg-gradient-to-br from-blue-500 to-blue-600 border border-transparent rounded-lg font-semibold text-sm text-white tracking-wide hover:from-blue-600 hover:to-blue-700 transform transition-all duration-200 hover:-translate-y-0.5 shadow-sm hover:shadow-md">
-                                Start Survey
-                                <svg class="w-4 h-4 ml-2 -mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                                </svg>
-                            </a>
+
+                            <!-- Prize Badge -->
+                            <div class="bg-green-100 text-xs text-green-800 px-2 py-1 rounded-full">
+                                <span class="font-medium">Prize Draw</span>
+                            </div>
                         </div>
+
+                        <!-- Action Button -->
+                        <a href="{{ route('surveys.take', $survey) }}"
+                           class="mt-6 flex w-full items-center justify-center px-5 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl font-semibold text-white tracking-wide hover:from-blue-600 hover:to-indigo-700 transform transition-all duration-200 shadow-md hover:shadow-lg">
+                            Participate
+                            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                            </svg>
+                        </a>
                     </div>
                 </div>
             @endforeach
+        </div>
+
+        <!-- Bottom Info Section (Research Disclosure) -->
+        <div class="mt-16 text-center bg-gray-50 p-6 rounded-xl max-w-3xl mx-auto">
+            <h3 class="text-xl font-bold text-gray-800 mb-3">About This Research</h3>
+            <p class="text-gray-600 mb-4">This is an independent research study on the relationship between emotional intelligence and career success among CPA professionals. This survey is not conducted by CPA Canada.</p>
+            <p class="text-gray-500 text-sm">Participation is voluntary and all data collected will be used for research purposes only. For questions about this study, please contact the research team.</p>
         </div>
     @endif
 </div>

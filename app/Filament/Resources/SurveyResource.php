@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\SurveyResource\Pages;
 use App\Filament\Resources\SurveyResource\RelationManagers;
 use App\Models\Survey;
+use App\Models\SurveyResponse;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -12,6 +13,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Notifications\Notification;
 
 class SurveyResource extends Resource
 {
@@ -46,6 +48,15 @@ class SurveyResource extends Resource
                         Forms\Components\DateTimePicker::make('ends_at')
                             ->label('End Date/Time')
                             ->after('starts_at'),
+
+                        // Added winners count field
+                        Forms\Components\TextInput::make('winners_count')
+                            ->label('Number of Winners')
+                            ->helperText('Number of top-scoring respondents to mark as winners')
+                            ->numeric()
+                            ->default(3)
+                            ->minValue(1)
+                            ->maxValue(100),
                     ])
                     ->columns(2),
             ]);
@@ -75,6 +86,13 @@ class SurveyResource extends Resource
                     ->counts('responses')
                     ->sortable(),
 
+                Tables\Columns\TextColumn::make('winners_count')
+                    ->label('Winners')
+                    ->counts('responses', function($query) {
+                        return $query->where('is_winner', true);
+                    })
+                    ->sortable(),
+
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -101,6 +119,37 @@ class SurveyResource extends Resource
 //                    ->url(fn (Survey $record): string => route('surveys.show', $record))
                     ->icon('heroicon-o-eye')
                     ->openUrlInNewTab(),
+                // Add automatic winner selection action
+                Tables\Actions\Action::make('select_winners')
+                    ->label('Select Winners')
+                    ->icon('heroicon-o-trophy')
+                    ->color('success')
+                    ->requiresConfirmation()
+                    ->modalHeading('Select Top Winners')
+                    ->modalDescription(fn (Survey $survey) => "This will automatically select the top {$survey->winners_count} respondents based on their scores and mark them as winners.")
+                    ->form([
+                        Forms\Components\TextInput::make('winners_count')
+                            ->label('Number of Winners')
+                            ->default(fn (Survey $survey) => $survey->winners_count ?? 3)
+                            ->required()
+                            ->numeric()
+                            ->minValue(1),
+                    ])
+                    ->action(function (Survey $survey, array $data): void {
+                        $count = $data['winners_count'] ?? $survey->winners_count ?? 3;
+
+                        // Save the winners count to the survey
+                        $survey->update(['winners_count' => $count]);
+
+                        // Select top winners
+                        $winners = SurveyResponse::selectTopWinners($survey->id, $count);
+
+                        // Display notification
+                        Notification::make()
+                            ->title("Selected {$winners->count()} winners")
+                            ->success()
+                            ->send();
+                    }),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -112,8 +161,8 @@ class SurveyResource extends Resource
     public static function getRelations(): array
     {
         return [
-           RelationManagers\QuestionsRelationManager::class,
-           RelationManagers\ResponsesRelationManager::class,
+            RelationManagers\QuestionsRelationManager::class,
+            RelationManagers\ResponsesRelationManager::class,
         ];
     }
 

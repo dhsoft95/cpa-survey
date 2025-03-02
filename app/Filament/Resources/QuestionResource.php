@@ -6,6 +6,7 @@ use App\Filament\Resources\QuestionResource\Pages;
 use App\Filament\Resources\QuestionResource\RelationManagers;
 use App\Models\Question;
 use App\Models\QuestionType;
+use App\Models\ResponseAnswer;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -72,11 +73,33 @@ class QuestionResource extends Resource
                         return 1;
                     }),
 
+                // Add text-based question scoring options
+                Forms\Components\Section::make('Text Question Scoring')
+                    ->schema([
+                        Forms\Components\TextInput::make('settings.correct_answer')
+                            ->label('Correct Answer')
+                            ->helperText('The expected answer text that will be considered correct'),
+
+                        Forms\Components\TextInput::make('settings.score')
+                            ->label('Score Value')
+                            ->numeric()
+                            ->helperText('Points awarded for a correct answer'),
+                    ])
+                    ->columns(2)
+                    ->visible(fn (callable $get) => in_array(
+                        QuestionType::find($get('question_type_id'))?->slug,
+                        ['text', 'textarea']
+                    )),
+
                 Forms\Components\KeyValue::make('settings')
                     ->label('Advanced Settings')
                     ->keyLabel('Setting')
                     ->valueLabel('Value')
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->visible(fn (callable $get) => !in_array(
+                        QuestionType::find($get('question_type_id'))?->slug,
+                        ['text', 'textarea']
+                    )),
 
                 Forms\Components\Section::make('Question Options')
                     ->schema([
@@ -89,6 +112,8 @@ class QuestionResource extends Resource
                                     ->numeric()
                                     ->default(fn ($get) => $get('../../options') ? count($get('../../options')) + 1 : 1),
                                 Forms\Components\TextInput::make('score')
+                                    ->label('Score Value')
+                                    ->helperText('Points awarded if this option is selected')
                                     ->numeric()
                                     ->nullable(),
                             ])
@@ -143,7 +168,11 @@ class QuestionResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                Tables\Actions\DeleteAction::make()
+                    ->before(function (Question $record) {
+                        // Delete related answers first
+                        ResponseAnswer::where('question_id', $record->id)->delete();
+                    })
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

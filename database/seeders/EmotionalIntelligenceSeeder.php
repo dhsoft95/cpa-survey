@@ -8,7 +8,7 @@ use App\Models\QuestionType;
 use App\Models\Survey;
 use Illuminate\Database\Seeder;
 
-class EmotionalIntelligenceSurveySeeder extends Seeder
+class EmotionalIntelligenceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
