@@ -26,6 +26,7 @@
             </div>
         @else
             <!-- Success Card for CPA Members -->
+            <!-- Success Card with Scores -->
             <div class="bg-white shadow-xl rounded-2xl p-8 text-center transform transition-all duration-300 hover:shadow-2xl">
                 <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6 animate-bounce">
                     <svg class="h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -36,12 +37,101 @@
                 <h2 class="mt-4 text-3xl font-bold text-gray-900 font-serif">Thank You! 🎉</h2>
                 <p class="mt-2 text-lg text-gray-600">Your responses have been successfully recorded</p>
 
+                @if($showScores)
+                    <!-- Score Results Section -->
+                    <div class="mt-8 p-6 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl border border-blue-100">
+                        <h3 class="text-xl font-bold text-blue-700 mb-6">Your Emotional Intelligence Profile</h3>
+
+                        <!-- Total Score -->
+                        <div class="bg-white rounded-lg p-4 shadow-md mb-6 flex items-center justify-between">
+                            <div class="text-left">
+                                <h4 class="font-bold text-lg text-gray-800">Overall EI Score</h4>
+                                <p class="text-gray-500 text-sm">Based on your responses to all questions</p>
+                            </div>
+                            <div class="text-right">
+                    <span class="text-3xl font-bold {{ $totalScore > 75 ? 'text-green-600' : ($totalScore > 50 ? 'text-blue-600' : 'text-gray-600') }}">
+                        {{ $totalScore }}
+                    </span>
+                                <span class="text-sm text-gray-500">/100</span>
+                            </div>
+                        </div>
+
+                        <!-- EI Category Scores -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <!-- Self Awareness -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <h4 class="font-bold text-gray-800 mb-1">Self Awareness</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-4 mb-1">
+                                    <div class="bg-blue-600 h-4 rounded-full" style="width: {{ $eiScores['self_awareness']['percentage'] }}%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-500">
+                                    <span>Score: {{ $eiScores['self_awareness']['raw'] }}</span>
+                                    <span>{{ $eiScores['self_awareness']['percentage'] }}%</span>
+                                </div>
+                            </div>
+
+                            <!-- Self Regulation -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <h4 class="font-bold text-gray-800 mb-1">Self Regulation</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-4 mb-1">
+                                    <div class="bg-indigo-600 h-4 rounded-full" style="width: {{ $eiScores['self_regulation']['percentage'] }}%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-500">
+                                    <span>Score: {{ $eiScores['self_regulation']['raw'] }}</span>
+                                    <span>{{ $eiScores['self_regulation']['percentage'] }}%</span>
+                                </div>
+                            </div>
+
+                            <!-- Motivation -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <h4 class="font-bold text-gray-800 mb-1">Motivation</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-4 mb-1">
+                                    <div class="bg-purple-600 h-4 rounded-full" style="width: {{ $eiScores['motivation']['percentage'] }}%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-500">
+                                    <span>Score: {{ $eiScores['motivation']['raw'] }}</span>
+                                    <span>{{ $eiScores['motivation']['percentage'] }}%</span>
+                                </div>
+                            </div>
+
+                            <!-- Empathy -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm">
+                                <h4 class="font-bold text-gray-800 mb-1">Empathy</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-4 mb-1">
+                                    <div class="bg-green-600 h-4 rounded-full" style="width: {{ $eiScores['empathy']['percentage'] }}%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-500">
+                                    <span>Score: {{ $eiScores['empathy']['raw'] }}</span>
+                                    <span>{{ $eiScores['empathy']['percentage'] }}%</span>
+                                </div>
+                            </div>
+
+                            <!-- Social Skills -->
+                            <div class="bg-white rounded-lg p-4 shadow-sm md:col-span-2">
+                                <h4 class="font-bold text-gray-800 mb-1">Social Skills</h4>
+                                <div class="w-full bg-gray-200 rounded-full h-4 mb-1">
+                                    <div class="bg-teal-600 h-4 rounded-full" style="width: {{ $eiScores['social_skills']['percentage'] }}%"></div>
+                                </div>
+                                <div class="flex justify-between text-xs text-gray-500">
+                                    <span>Score: {{ $eiScores['social_skills']['raw'] }}</span>
+                                    <span>{{ $eiScores['social_skills']['percentage'] }}%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-sm text-gray-600 mt-4 bg-blue-50 p-4 rounded-lg">
+                            <p class="font-medium mb-2">What does this mean?</p>
+                            <p>Your EI profile shows your emotional intelligence strengths and areas for potential development. Higher scores indicate stronger abilities in each area.</p>
+                        </div>
+                    </div>
+                @endif
+
                 <div class="mt-8 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
                     <p class="text-sm text-gray-600 mb-2 font-medium">Your completion code:</p>
                     <div class="flex items-center justify-center space-x-3">
-                        <span class="text-3xl font-mono font-bold text-blue-700 tracking-wider bg-white px-4 py-2 rounded-lg shadow-inner">
-                            {{ $completionCode }}
-                        </span>
+            <span class="text-3xl font-mono font-bold text-blue-700 tracking-wider bg-white px-4 py-2 rounded-lg shadow-inner">
+                {{ $completionCode }}
+            </span>
                         <button onclick="copyToClipboard('{{ $completionCode }}')"
                                 class="p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
                                 data-tippy-content="Copy to clipboard">
@@ -321,7 +411,6 @@
                                             <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
                                             @enderror
                                         </div>
-
                                         <!-- Yearly Compensation -->
                                         <div class="form-group">
                                             <label class="block text-sm font-medium text-gray-700 mb-1">
@@ -501,32 +590,38 @@
                                     Please rate how much each statement applies to you:
                                 </p>
                             </div>
-
                             <div class="overflow-x-auto pb-4">
-                                <div class="min-w-[800px] md:min-w-full space-y-4">
+                                <div class="min-w-[800px] md:min-w-full space-y-6">
                                     @foreach($careerSatisfactionQuestions as $index => $question)
                                         @if($question['question_type']['slug'] === 'likert-scale')
-                                            <div class="bg-white p-4 rounded-lg border border-gray-100 shadow-sm hover:border-blue-200 transition-colors duration-200">
-                                                <p class="text-sm font-medium text-gray-900 mb-4">
-                                                    {{ $question['question_text'] }}
-                                                    <span class="text-red-500 ml-1">*</span>
-                                                </p>
-                                                <div class="grid grid-cols-5 gap-2">
+                                            <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:border-blue-200 transition-colors duration-200">
+                                                <div class="flex items-start mb-4">
+                                                    <!-- Question Number -->
+                                                    <div class="flex-shrink-0 bg-blue-600 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                                                        {{ $index + 1 }}
+                                                    </div>
+                                                    <!-- Question Text -->
+                                                    <p class="text-base font-medium text-gray-900">
+                                                        {{ $question['question_text'] }}
+                                                        <span class="text-red-500 ml-1">*</span>
+                                                    </p>
+                                                </div>
+                                                <div class="grid grid-cols-5 gap-2 ml-11">
                                                     @foreach($question['options'] as $option)
-                                                        <label class="flex flex-col items-center p-2 rounded-lg border border-gray-200 hover:border-blue-300 cursor-pointer transition-colors duration-200">
+                                                        <label class="flex flex-col items-center p-3 rounded-lg border border-gray-200 hover:border-blue-300 cursor-pointer transition-colors duration-200">
                                                             <input type="radio"
                                                                    wire:model="answers.{{ $question['id'] }}.selected_option"
                                                                    value="{{ $option['id'] }}"
                                                                    required
                                                                    class="h-5 w-5 text-blue-600 focus:ring-blue-500">
-                                                            <span class="mt-1 text-xs text-gray-700 text-center">
-                                {{ $option['option_text'] }}
-                            </span>
+                                                            <span class="mt-2 text-sm text-gray-700 text-center">
+                                                            {{ $option['option_text'] }}
+                                                        </span>
                                                         </label>
                                                     @endforeach
                                                 </div>
                                                 @error("answers.{$question['id']}.selected_option")
-                                                <p class="mt-2 text-sm text-red-600 flex items-center">
+                                                <p class="mt-2 text-sm text-red-600 flex items-center ml-11">
                                                     <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
                                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
                                                     </svg>
@@ -538,7 +633,6 @@
                                     @endforeach
                                 </div>
                             </div>
-
                             <!-- Open-ended question -->
                             <div class="bg-white p-6 rounded-lg border border-gray-100 shadow-sm">
                                 <p class="text-lg font-medium text-gray-900 mb-4">
@@ -546,7 +640,8 @@
                                 </p>
                                 <textarea wire:model="careerChallengesText" rows="5"
                                           class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm"
-                                          placeholder="Your answer"></textarea>
+                                          placeholder="Your answer">
+                                </textarea>
                             </div>
                         </div>
                     @endif
@@ -560,9 +655,7 @@
                         @else
                             <div></div>
                         @endif
-
-                        <button type="submit"
-                                class="inline-flex items-center px-8 py-3 border border-transparent rounded-full font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg transform transition hover:scale-105 duration-200">
+                        <button type="submit" class="inline-flex items-center px-8 py-3 border border-transparent rounded-full font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg transform transition hover:scale-105 duration-200">
                             {{ $currentStep < $totalSteps ? 'Continue →' : 'Submit Survey' }}
                         </button>
                     </div>
@@ -578,14 +671,12 @@
                 toast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg animate-slideIn';
                 toast.textContent = '✓ Copied to clipboard!';
                 document.body.appendChild(toast);
-
                 setTimeout(() => {
                     toast.remove();
                 }, 2000);
             });
         }
     </script>
-
     <style>
         @keyframes slideIn {
             from { transform: translateX(100%); }

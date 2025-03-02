@@ -62,7 +62,6 @@ class SurveySeeder extends Seeder
             'is_required' => true,
             'order' => 2,
         ]);
-
         // Gender options
         $genderOptions = ['Male', 'Female', 'Other', 'Prefer not to disclose'];
         foreach ($genderOptions as $index => $option) {
