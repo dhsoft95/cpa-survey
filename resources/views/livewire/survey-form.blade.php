@@ -655,14 +655,44 @@
                         @else
                             <div></div>
                         @endif
-                        <button type="submit" class="inline-flex items-center px-8 py-3 border border-transparent rounded-full font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg transform transition hover:scale-105 duration-200">
-                            {{ $currentStep < $totalSteps ? 'Continue →' : 'Submit Survey' }}
-                        </button>
+                            <button type="submit"
+                                    wire:loading.attr="disabled"
+                                    wire:loading.class="opacity-75 cursor-wait"
+                                    class="inline-flex items-center px-8 py-3 border border-transparent rounded-full font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg transform transition hover:scale-105 duration-200">
+    <span wire:loading.remove wire:target="nextStep">
+        {{ $currentStep < $totalSteps ? 'Continue →' : 'Submit Survey' }}
+    </span>
+                                <span wire:loading wire:target="nextStep" class="inline-flex items-center">
+        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        {{ $currentStep < $totalSteps ? 'Processing...' : 'Calculating Results...' }}
+    </span>
+                            </button>
                     </div>
                 </form>
             </div>
+            <div wire:loading.flex wire:target="nextStep, submitSurvey"
+                 class="fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center">
+                <div class="bg-white rounded-lg p-8 max-w-md mx-auto text-center shadow-2xl">
+                    <div class="flex justify-center mb-6">
+                        <svg class="animate-spin h-12 w-12 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Processing Your Response</h3>
+                    <p class="text-gray-600 mb-2">Please wait while we calculate your results...</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
+                        <div class="bg-blue-600 h-2.5 rounded-full animate-pulse" style="width: 100%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500">This may take a few moments.</p>
+                </div>
+            </div>
         </div>
     @endif
+
 
     <script>
         function copyToClipboard(text) {
@@ -678,6 +708,17 @@
         }
     </script>
     <style>
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
         @keyframes slideIn {
             from { transform: translateX(100%); }
             to { transform: translateX(0); }
