@@ -104,7 +104,7 @@
     <footer class="bg-white shadow mt-8 py-4">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center text-sm text-gray-500">
-                &copy; {{ date('Y') }} CPA Survey System. All rights reserved.
+                &copy; {{ date('Y') }} CPA Career Success Survey All rights reserved.
             </div>
         </div>
     </footer>
