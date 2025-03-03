@@ -28,3 +28,11 @@ Route::get('/ei-report/{code}/download', [SurveyResponseController::class, 'down
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/responses/{response}/ei-report', [SurveyResponseController::class, 'downloadEIReport'])->name('ei-report.download');
 });
+
+Route::get('/surveys/{survey}', [App\Http\Controllers\SurveyController::class, 'show'])
+    ->name('surveys.show');
+
+// Survey analytics route
+Route::get('/surveys/{survey}/analytics', [App\Http\Controllers\SurveyAnalyticsController::class, 'index'])
+    ->name('surveys.analytics')
+    ->middleware(['auth']);

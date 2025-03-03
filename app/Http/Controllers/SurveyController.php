@@ -12,8 +12,14 @@ class SurveyController extends Controller
         return view('surveys.index');
     }
 
-    public function show(Survey $survey): \Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory
+    public function show(Survey $survey)
     {
+        // Check if survey is active
+        if (!$survey->isActive()) {
+            return redirect()->route('home')
+                ->with('error', 'This survey is not currently active.');
+        }
+
         return view('surveys.show', compact('survey'));
     }
 

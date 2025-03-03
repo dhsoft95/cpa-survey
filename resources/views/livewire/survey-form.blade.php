@@ -1,175 +1,165 @@
-<div class="py-12 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     @if($completionCode)
-        <!-- Check if the person is not a CPA member -->
-        @if($demographicData['is_cpa_member'] === 'no')
-            <!-- Non-CPA Member Message -->
-            <div class="bg-white shadow-xl rounded-2xl p-8 text-center transform transition-all duration-300 hover:shadow-2xl">
-                <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-blue-100 mb-6">
-                    <svg class="h-12 w-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                </div>
-
-                <h2 class="mt-4 text-3xl font-bold text-gray-900 font-serif">Thank You</h2>
-                <p class="mt-2 text-lg text-gray-600">This survey is specifically for CPA Canada members.</p>
-                <p class="mt-4 text-gray-600">Thank you for your interest in participating. We appreciate your time.</p>
-
-                <div class="mt-10">
-                    <a href="{{ route('surveys.index') }}"
-                       class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md transition-all duration-200">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path>
-                        </svg>
-                        Return to Surveys
-                    </a>
-                </div>
+        <!-- Success Card with Scores -->
+        <div class="bg-white shadow-xl rounded-2xl p-8 text-center transform transition-all duration-300 hover:shadow-2xl">
+            <!-- This section remains unchanged -->
+            <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6 animate-bounce">
+                <svg class="h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
             </div>
-        @else
-            <!-- Success Card for CPA Members -->
-            <!-- Success Card with Scores -->
-            <div class="bg-white shadow-xl rounded-2xl p-8 text-center transform transition-all duration-300 hover:shadow-2xl">
-                <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6 animate-bounce">
-                    <svg class="h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                    </svg>
-                </div>
 
-                <h2 class="mt-4 text-3xl font-bold text-gray-900 font-serif">Thank You! 🎉</h2>
-                <p class="mt-2 text-lg text-gray-600">Your responses have been successfully recorded</p>
+            <h2 class="mt-4 text-3xl font-bold text-gray-900 font-serif">Thank You!</h2>
+            <p class="mt-2 text-lg text-gray-600">Your responses have been successfully recorded</p>
+            <p class="text-sm text-gray-500 mt-2">The submission of the questionnaire serves as a form of implied consent.</p>
 
-                @if($showScores)
-                    <!-- Score Results Section -->
-                    <div class="mt-8 p-6 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl border border-blue-100">
-                        <h3 class="text-xl font-bold text-blue-700 mb-6">Your Emotional Intelligence Profile</h3>
+            <!-- The section to update is the score results display section -->
+            @if($showScores)
+                <!-- Score Results Section -->
+                <div class="mt-8 p-6 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl border border-blue-100">
+                    <h3 class="text-xl font-bold text-blue-700 mb-6">Your Emotional Intelligence Profile</h3>
+                    <p class="text-gray-600 mb-6">Based on the GENOS Emotional Intelligence framework</p>
 
-                        <!-- Total Score -->
-                        <div class="bg-white rounded-lg p-4 shadow-md mb-6 flex items-center justify-between">
-                            <div class="text-left">
-                                <h4 class="font-bold text-lg text-gray-800">Overall EI Score</h4>
-                                <p class="text-gray-500 text-sm">Based on your responses to all questions</p>
+                    <!-- Total Score -->
+                    <div class="bg-white rounded-lg p-4 shadow-md mb-6 flex items-center justify-between">
+                        <div class="text-left">
+                            <h4 class="font-bold text-lg text-gray-800">Overall EI Score</h4>
+                            <p class="text-gray-500 text-sm">Based on your responses to EI questions</p>
+                        </div>
+                        <div class="text-right">
+                <span class="text-3xl font-bold text-blue-600">
+                    {{ $totalScore }}
+                </span>
+                            <span class="text-sm text-gray-500"> points</span>
+                        </div>
+                    </div>
+
+                    <!-- EI Category Scores -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <!-- Emotional Self-Awareness -->
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <h4 class="font-bold text-gray-800 mb-1">{{ $eiScores['esa']['name'] ?? 'Emotional Self-Awareness' }}</h4>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Your score:</span>
+                                <span class="font-bold text-blue-600">{{ $eiScores['esa']['raw'] ?? 0 }} points</span>
                             </div>
-                            <div class="text-right">
-                    <span class="text-3xl font-bold {{ $totalScore > 75 ? 'text-green-600' : ($totalScore > 50 ? 'text-blue-600' : 'text-gray-600') }}">
-                        {{ $totalScore }}
+                        </div>
+
+                        <!-- Emotional Expression -->
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <h4 class="font-bold text-gray-800 mb-1">{{ $eiScores['ee']['name'] ?? 'Emotional Expression' }}</h4>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Your score:</span>
+                                <span class="font-bold text-indigo-600">{{ $eiScores['ee']['raw'] ?? 0 }} points</span>
+                            </div>
+                        </div>
+
+                        <!-- Emotional Awareness of Others -->
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <h4 class="font-bold text-gray-800 mb-1">{{ $eiScores['eao']['name'] ?? 'Emotional Awareness of Others' }}</h4>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Your score:</span>
+                                <span class="font-bold text-purple-600">{{ $eiScores['eao']['raw'] ?? 0 }} points</span>
+                            </div>
+                        </div>
+
+                        <!-- Emotional Reasoning -->
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <h4 class="font-bold text-gray-800 mb-1">{{ $eiScores['er']['name'] ?? 'Emotional Reasoning' }}</h4>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Your score:</span>
+                                <span class="font-bold text-green-600">{{ $eiScores['er']['raw'] ?? 0 }} points</span>
+                            </div>
+                        </div>
+
+                        <!-- Emotional Self-Management -->
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <h4 class="font-bold text-gray-800 mb-1">{{ $eiScores['esm']['name'] ?? 'Emotional Self-Management' }}</h4>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Your score:</span>
+                                <span class="font-bold text-teal-600">{{ $eiScores['esm']['raw'] ?? 0 }} points</span>
+                            </div>
+                        </div>
+
+                        <!-- Emotional Management of Others -->
+                        <div class="bg-white rounded-lg p-4 shadow-sm">
+                            <h4 class="font-bold text-gray-800 mb-1">{{ $eiScores['emo']['name'] ?? 'Emotional Management of Others' }}</h4>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Your score:</span>
+                                <span class="font-bold text-blue-600">{{ $eiScores['emo']['raw'] ?? 0 }} points</span>
+                            </div>
+                        </div>
+
+                        <!-- Emotional Self-Control -->
+                        <div class="bg-white rounded-lg p-4 shadow-sm md:col-span-2">
+                            <h4 class="font-bold text-gray-800 mb-1">{{ $eiScores['esc']['name'] ?? 'Emotional Self-Control' }}</h4>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Your score:</span>
+                                <span class="font-bold text-red-600">{{ $eiScores['esc']['raw'] ?? 0 }} points</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-sm text-gray-600 mt-4 bg-blue-50 p-4 rounded-lg">
+                        <p class="font-medium mb-2">What does this mean?</p>
+                        <p>Your EI profile shows your emotional intelligence strengths and areas for potential development based on the questions you answered. The GENOS model measures 7 key dimensions of emotional intelligence in the workplace. At the end of the study, summary results will be shared to give you the opportunity to assess your score with those of your peers.</p>
+                    </div>
+                </div>
+            @endif
+
+            <div class="mt-8 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+                <p class="text-sm text-gray-600 mb-2 font-medium">Your completion code:</p>
+                <div class="flex items-center justify-center space-x-3">
+                    <span class="text-3xl font-mono font-bold text-blue-700 tracking-wider bg-white px-4 py-2 rounded-lg shadow-inner">
+                        {{ $completionCode }}
                     </span>
-                                <span class="text-sm text-gray-500">/100</span>
-                            </div>
-                        </div>
-
-                        <!-- EI Category Scores -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                            <!-- Self Awareness -->
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
-                                <h4 class="font-bold text-gray-800 mb-1">Self Awareness</h4>
-                                <div class="w-full bg-gray-200 rounded-full h-4 mb-1">
-                                    <div class="bg-blue-600 h-4 rounded-full" style="width: {{ $eiScores['self_awareness']['percentage'] }}%"></div>
-                                </div>
-                                <div class="flex justify-between text-xs text-gray-500">
-                                    <span>Score: {{ $eiScores['self_awareness']['raw'] }}</span>
-                                    <span>{{ $eiScores['self_awareness']['percentage'] }}%</span>
-                                </div>
-                            </div>
-
-                            <!-- Self Regulation -->
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
-                                <h4 class="font-bold text-gray-800 mb-1">Self Regulation</h4>
-                                <div class="w-full bg-gray-200 rounded-full h-4 mb-1">
-                                    <div class="bg-indigo-600 h-4 rounded-full" style="width: {{ $eiScores['self_regulation']['percentage'] }}%"></div>
-                                </div>
-                                <div class="flex justify-between text-xs text-gray-500">
-                                    <span>Score: {{ $eiScores['self_regulation']['raw'] }}</span>
-                                    <span>{{ $eiScores['self_regulation']['percentage'] }}%</span>
-                                </div>
-                            </div>
-
-                            <!-- Motivation -->
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
-                                <h4 class="font-bold text-gray-800 mb-1">Motivation</h4>
-                                <div class="w-full bg-gray-200 rounded-full h-4 mb-1">
-                                    <div class="bg-purple-600 h-4 rounded-full" style="width: {{ $eiScores['motivation']['percentage'] }}%"></div>
-                                </div>
-                                <div class="flex justify-between text-xs text-gray-500">
-                                    <span>Score: {{ $eiScores['motivation']['raw'] }}</span>
-                                    <span>{{ $eiScores['motivation']['percentage'] }}%</span>
-                                </div>
-                            </div>
-
-                            <!-- Empathy -->
-                            <div class="bg-white rounded-lg p-4 shadow-sm">
-                                <h4 class="font-bold text-gray-800 mb-1">Empathy</h4>
-                                <div class="w-full bg-gray-200 rounded-full h-4 mb-1">
-                                    <div class="bg-green-600 h-4 rounded-full" style="width: {{ $eiScores['empathy']['percentage'] }}%"></div>
-                                </div>
-                                <div class="flex justify-between text-xs text-gray-500">
-                                    <span>Score: {{ $eiScores['empathy']['raw'] }}</span>
-                                    <span>{{ $eiScores['empathy']['percentage'] }}%</span>
-                                </div>
-                            </div>
-
-                            <!-- Social Skills -->
-                            <div class="bg-white rounded-lg p-4 shadow-sm md:col-span-2">
-                                <h4 class="font-bold text-gray-800 mb-1">Social Skills</h4>
-                                <div class="w-full bg-gray-200 rounded-full h-4 mb-1">
-                                    <div class="bg-teal-600 h-4 rounded-full" style="width: {{ $eiScores['social_skills']['percentage'] }}%"></div>
-                                </div>
-                                <div class="flex justify-between text-xs text-gray-500">
-                                    <span>Score: {{ $eiScores['social_skills']['raw'] }}</span>
-                                    <span>{{ $eiScores['social_skills']['percentage'] }}%</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="text-sm text-gray-600 mt-4 bg-blue-50 p-4 rounded-lg">
-                            <p class="font-medium mb-2">What does this mean?</p>
-                            <p>Your EI profile shows your emotional intelligence strengths and areas for potential development. Higher scores indicate stronger abilities in each area.</p>
-                        </div>
-                    </div>
-                @endif
-
-                <div class="mt-8 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
-                    <p class="text-sm text-gray-600 mb-2 font-medium">Your completion code:</p>
-                    <div class="flex items-center justify-center space-x-3">
-            <span class="text-3xl font-mono font-bold text-blue-700 tracking-wider bg-white px-4 py-2 rounded-lg shadow-inner">
-                {{ $completionCode }}
-            </span>
-                        <button onclick="copyToClipboard('{{ $completionCode }}')"
-                                class="p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
-                                data-tippy-content="Copy to clipboard">
-                            <svg class="h-6 w-6 text-blue-600 group-hover:text-blue-700" fill="none" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
-                            </svg>
-                        </button>
-                    </div>
-                    <p class="mt-4 text-sm text-gray-600 text-center max-w-md mx-auto leading-relaxed">
-                        ✨ Keep this code safe! You'll need it to claim rewards if selected as a winner.
-                    </p>
-                </div>
-
-                <div class="mt-10">
-                    <a href="{{ route('surveys.index') }}"
-                       class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md transition-all duration-200">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"></path>
+                    <button onclick="copyToClipboard('{{ $completionCode }}')"
+                            class="p-2 rounded-lg hover:bg-blue-50 transition-colors duration-200 group"
+                            data-tippy-content="Copy to clipboard">
+                        <svg class="h-6 w-6 text-blue-600 group-hover:text-blue-700" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
                         </svg>
-                        Return to Surveys
-                    </a>
+                    </button>
                 </div>
+                <p class="mt-4 text-sm text-gray-600 text-center max-w-md mx-auto leading-relaxed">
+                    ✨ Keep this code safe! On April 7, 2025, check the awards section at the beginning of the survey and follow instructions to claim your gift card if you're a winner.
+                </p>
             </div>
-        @endif
-
+        </div>
     @else
         <!-- Survey Container -->
         <div class="bg-white shadow-xl rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
+            <!-- Header/Intro Section - unchanged -->
             <div class="p-8 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50">
-                <h1 class="text-3xl font-bold text-gray-900 font-serif">{{ $survey->title }}</h1>
+                <h1 class="text-3xl font-bold text-gray-900 font-serif">EI and Career Success of CPAs</h1>
                 <p class="mt-3 text-gray-600 leading-relaxed">
-                    ✨ Fully complete all questions to help shape the CPA profession and get a chance to win:
-                    <span class="block mt-2 text-blue-700 font-medium">
-                        $100 Visa gift card • EI score report • Enhanced work appreciation insights
-                    </span>
+                    Take 25 minutes to share your valuable experience as a CPA professional and help close the gap in our understanding of the impact of Emotional intelligence (EI) on the career success of CPAs.
                 </p>
+                <div class="mt-4">
+                    <p class="font-medium text-blue-700">In appreciation of your time, you get:</p>
+                    <ul class="mt-2 space-y-1 text-gray-600 ml-5 list-disc">
+                        <li>Personal EI score report (based on GENOS Instrument)</li>
+                        <li>Enhanced insights into work related EI behaviors</li>
+                        <li>Opportunity to reflect on your work behaviours</li>
+                        <li>Chance to win $100 Visa gift card</li>
+                    </ul>
+                </div>
             </div>
 
+            <!-- About Research Section - unchanged -->
+            <div class="p-6 bg-white border-b border-gray-100">
+                <div class="bg-blue-50 p-4 rounded-lg">
+                    <h2 class="font-bold text-gray-800 mb-2">About this Research</h2>
+                    <p class="text-gray-600 text-sm leading-relaxed">
+                        This is a comprehensive PhD research study, by a Canadian CPA, through Andrews University. It investigates the influence of EI, moderated by variables such as age etc. The study uses Genos EI framework. Career success is measured both subjectively and objectively. It is important that you complete all the questions as your responses will impact the validity of the findings.
+                    </p>
+                    <p class="text-gray-600 text-sm mt-2">
+                        Participation is voluntary and all data collected will be used for research purposes only. For questions about this study, please contact <a href="mailto:jenipher@andrews.edu" class="text-blue-600 hover:underline">jenipher@andrews.edu</a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Progress Bar - Update to show 4 steps -->
             <div class="p-6 bg-white border-b border-gray-100">
                 <div class="flex items-center space-x-4">
                     <div class="flex-1 h-3 bg-gray-200 rounded-full overflow-hidden">
@@ -182,52 +172,90 @@
                 </div>
             </div>
 
+            <!-- Loading Overlay - unchanged -->
+            <div wire:loading.flex wire:target="nextStep, submitSurvey"
+                 class="fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center">
+                <div class="bg-white rounded-lg p-8 max-w-md mx-auto text-center shadow-2xl">
+                    <div class="flex justify-center mb-6">
+                        <svg class="animate-spin h-12 w-12 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Processing Your Response</h3>
+                    <p class="text-gray-600 mb-2">Please wait while we calculate your results...</p>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4">
+                        <div class="bg-blue-600 h-2.5 rounded-full animate-pulse" style="width: 100%"></div>
+                    </div>
+                    <p class="text-sm text-gray-500">This may take a few moments.</p>
+                </div>
+            </div>
+
             <div class="p-8">
                 <form wire:submit.prevent="nextStep">
-                    <!-- Step 1: Consent Form -->
+                    <!-- Step 1: Consent Form (unchanged) -->
                     @if($currentStep == 1)
                         <div class="mb-8 p-6 bg-white rounded-xl border border-blue-100 shadow-sm">
-                            <h2 class="text-2xl font-bold text-gray-900 font-serif mb-4">Consent Form</h2>
-                            <div class="prose prose-blue max-w-none">
-                                <p class="text-gray-700 leading-relaxed">
-                                    Please read the information below before proceeding.
+                            <h2 class="text-2xl font-bold text-gray-900 font-serif mb-4">Your Consent</h2>
+                            <div class="prose prose-blue max-w-none text-gray-700">
+                                <p class="mb-4">
+                                    You are being invited to participate in a research study titled the Role of emotional Intelligence (EI) in the career success of professional accountants (CPAs). This study is being done by Jenipher Chitate (MBA, CPA, CMA) as part of a Doctorate Degree at Andrews University.
                                 </p>
-                                <p class="text-gray-700 mt-4">
-                                    Furthermore, upon submission of the survey, you will be issued with an autogenerated number.
-                                    Please keep this number. On April 2, 2025, winning numbers will be drawn and published with instructions on how to claim the Visa card.
-                                    This survey is not collecting self-identifying information; the onus will be on you to follow the instructions to claim your prize.
+                                <p class="mb-4">
+                                    Emotional intelligence is increasingly being recognized as an enabling capability required for success throughout a CPA's career. Despite this growing recognition, there are still gaps in knowledge as to how exactly EI impacts career success for the accountant. The purpose of the study is to provide evidence to help ascertain the role of EI in the career success of professional accountants.
                                 </p>
-                                <p class="text-gray-700 mt-4">
-                                    We believe there are no known risks associated with this research study. However, as with any online-related activity,
-                                    the risk of a breach of confidentiality is always possible. To the best of our ability, your answers in this study will remain confidential.
-                                    We will minimize any risks by collecting non-identifying information and storing raw data in a secure environment and password-restricted computer.
+                                <p class="mb-4">
+                                    If you agree to take part in this study, you will be asked to complete an online questionnaire. This questionnaire will ask about biographical data, your perceived level of career success, and how you navigate through emotionally intelligent work-related situations. The whole survey should take you approximately 20 minutes to complete. The bulk of the questions pertain to the assessment of EI. The EI specific questions use a comprehensive externally validated and accepted tool specifically designed to assess EI in practical work-place contexts.
                                 </p>
-                                <p class="text-gray-700 mt-4">
-                                    By clicking "I Agree" below, you are indicating that you are at least 18 years old, have read and understood this consent form,
-                                    and agree to participate in this research study.
+                                <p class="mb-4">
+                                    We recognize that your time is extremely important. As a token of appreciation, the questionnaire has been setup so that you can potentially benefit from your participation. We believe that reading and responding to the EI specific questions will give you a greater sense of the type of work-related situations that are impacted by EI. Upon submission of the questionnaire, you will get your individual EI scores. You are encouraged to keep your EI score. At the end of the study, the summary of results will be shared to give you the opportunity to assess your score with those of your peers. <strong>Although you are free to skip any question, the accuracy of the EI score is dependent on the questions answered.</strong>
+                                </p>
+                                <p class="mb-4">
+                                    Furthermore, upon submission of the survey, you will be issued with an autogenerated number. Please keep this number, on April 7, 2025, the numbers will be drawn and published with instructions on how to claim your gift certificate. This survey is not collecting self identifying information, the onus will be on you to follow the instructions to claim your prize.
+                                </p>
+                                <p class="mb-4">
+                                    It is recognized that you may not directly benefit from this research, however, we hope that your participation in the study will (i) result in greater understanding of how EI impacts the career success of a professional accountant, (ii) help professional accountants assess their EI strengths, and take steps to address gaps (iii) help shape the future CPA curriculum, academic training, and CPA competency mapping.
+                                </p>
+                                <p class="mb-4">
+                                    We believe there are no known risks associated with this research study, however, as with any online related activity, the risk of a breach of confidentiality is always possible. To the best of our ability your answers in this study will remain confidential. We will minimize any risks by collecting non-identifying information, and storing raw data in a secure environment and password restricted computer.
+                                </p>
+                                <p class="font-bold mb-4">
+                                    By clicking "I agree" below you are indicating that you are at least 18 years old, have read and understood this consent form and agree to participate in this research study. Please print a copy of this page for your records.
                                 </p>
                             </div>
 
-                            <div class="mt-6 p-4 bg-blue-50 rounded-lg">
-                                <label class="flex items-start space-x-3">
+                            <div class="mt-6 flex items-start space-x-2">
+                                <div class="mt-1">
                                     <input type="checkbox" wire:model="consentAgreed"
-                                           class="mt-1 h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
-                                    <span class="text-gray-700 font-medium">
-                                        I agree to the terms and consent to participate
-                                    </span>
-                                </label>
-                                @error('consentAgreed')
-                                <p class="mt-2 text-sm text-red-600 flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                                    </svg>
-                                    {{ $message }}
-                                </p>
-                                @enderror
+                                           class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                </div>
+                                <div>
+                                    <label class="text-gray-700 font-medium inline-block mb-1 cursor-pointer" for="consentAgreed">
+                                        I agree to participate in this research study
+                                    </label>
+                                    <div class="mt-2">
+                                        <button type="button" wire:click="nextStep"
+                                                class="mr-2 px-6 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-md">
+                                            I Agree
+                                        </button>
+                                        <button type="button" onclick="window.history.back()"
+                                                class="px-6 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors">
+                                            I Don't Agree
+                                        </button>
+                                    </div>
+                                    @error('consentAgreed')
+                                    <p class="mt-2 text-sm text-red-600 flex items-center">
+                                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                        </svg>
+                                        {{ $message }}
+                                    </p>
+                                    @enderror
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Step 2: CPA Membership and Demographics -->
+                        <!-- Step 2: CPA Membership check ONLY -->
                     @elseif($currentStep == 2)
                         <div class="mb-8 p-6 bg-white rounded-xl border border-blue-100 shadow-sm">
                             <h2 class="text-2xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 mb-6">
@@ -261,391 +289,456 @@
                             </div>
                         </div>
 
-                        @if($demographicData['is_cpa_member'] === 'yes')
-                            <div class="bg-white rounded-xl border border-blue-100 shadow-lg p-8 max-w-5xl mx-auto">
-                                <!-- Header Section -->
-                                <div class="mb-8">
-                                    <h2 class="text-2xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4">
-                                        About You
-                                    </h2>
-                                    <p class="mt-2 text-gray-500 text-sm pl-4 ml-4">
-                                        Please provide the following information to help us understand the demographic makeup of CPA members.
-                                    </p>
+                        <!-- Step 3: Demographics section (moved from step 2) -->
+                    @elseif($currentStep == 3)
+                        <!-- Demographics Section - now its own step -->
+
+                        <div class="bg-white rounded-xl border border-blue-100 shadow-lg p-6 space-y-8 max-w-4xl mx-auto">
+                            <h2 class="text-2xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 ml-2">
+                                Demographics and Objective Career Success Data
+                            </h2>
+
+                            <p class="text-gray-600 px-4">
+                                Please provide the following information to help us understand the demographic makeup of CPA members and data needed to establish objective career success variables. You may skip questions you prefer not to answer.
+                            </p>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-2">
+                                <!-- Birth Year -->
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Please indicate the year you were born.
+                                    </label>
+                                    <input type="number" wire:model="demographicData.birth_year"
+                                           class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition duration-150 placeholder-gray-400"
+                                           placeholder="e.g. 1995">
                                 </div>
 
-                                <!-- Form Grid -->
-                                <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-8 gap-y-6">
-                                    <!-- First Column -->
-                                    <div class="space-y-6">
-                                        <!-- Birth Year -->
-                                        <div class="form-group">
-                                            <label class="block text-sm font-medium text-gray-700 mb-1">
-                                                Please indicate the year you were born.
-                                            </label>
-                                            <input type="number" wire:model="demographicData.birth_year"
-                                                   class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition-all duration-150 placeholder-gray-400"
-                                                   placeholder="e.g. 1995">
-                                            @error('demographicData.birth_year')
-                                            <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
-                                            @enderror
-                                        </div>
+                                <!-- Gender -->
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Please select the gender you are most comfortable disclosing.
+                                    </label>
+                                    <select wire:model="demographicData.gender"
+                                            class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm appearance-none bg-white bg-chevron">
+                                        <option value="">Select gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                        <option value="not_disclosed">Prefer not to disclose</option>
+                                    </select>
+                                </div>
 
-                                        <!-- Provincial CPA Body -->
-                                        <div class="form-group">
-                                            <label class="block text-sm font-medium text-gray-700 mb-1">
-                                                Please name the Primary Provincial CPA body you are a member of.
-                                            </label>
-                                            <input type="text" wire:model="demographicData.provincial_cpa_body"
-                                                   class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition-all duration-150 placeholder-gray-400"
-                                                   placeholder="Your answer">
-                                            @error('demographicData.provincial_cpa_body')
-                                            <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-
-                                        <!-- Years Since Designation -->
-                                        <div class="form-group">
-                                            <label class="block text-sm font-medium text-gray-700 mb-1">
-                                                Please indicate the years since you obtained your designation.
-                                            </label>
-                                            <input type="number" wire:model="demographicData.years_designation"
-                                                   class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition-all duration-150 placeholder-gray-400"
-                                                   placeholder="Number only">
-                                            @error('demographicData.years_designation')
-                                            <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-
-                                        <!-- Industry -->
-                                        <div class="form-group">
-                                            <label class="block text-sm font-medium text-gray-700 mb-1">
-                                                Please indicate the type of industry that best fits where you work.
-                                            </label>
-                                            <div class="relative">
-                                                <select wire:model="demographicData.industry"
-                                                        class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition-all duration-150 appearance-none">
-                                                    <option value="">Select industry</option>
-                                                    <option value="Public Practice">Public Practice</option>
-                                                    <option value="Private Corporation">Private Corporation</option>
-                                                    <option value="Publicly traded Corporation">Publicly traded Corporation</option>
-                                                    <option value="Education">Education</option>
-                                                    <option value="Government">Government</option>
-                                                    <option value="Not-for-profit">Not-for-profit</option>
-                                                    <option value="Other">Other</option>
-                                                </select>
-                                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            @error('demographicData.industry')
-                                            <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-
-                                        <!-- Current Position -->
-                                        <div class="form-group">
-                                            <label class="block text-sm font-medium text-gray-700 mb-1">
-                                                Please indicate your current or most recent position.
-                                            </label>
-                                            <div class="relative">
-                                                <select wire:model="demographicData.current_position"
-                                                        class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition-all duration-150 appearance-none">
-                                                    <option value="">Select position</option>
-                                                    <option value="Sole Proprietor">Sole Proprietor of an accounting firm</option>
-                                                    <option value="Partner">Partner of an accounting firm</option>
-                                                    <option value="Owner">Owner of a non-accounting organization</option>
-                                                    <option value="Employee Accounting">Employee of an accounting firm</option>
-                                                    <option value="Employee Non-Accounting">Employee of a non-accounting organization</option>
-                                                    <option value="Other">Other</option>
-                                                </select>
-                                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            @error('demographicData.current_position')
-                                            <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                    </div>
-
-                                    <!-- Second Column -->
-                                    <div class="space-y-6">
-                                        <!-- Gender -->
-                                        <div class="form-group">
-                                            <label class="block text-sm font-medium text-gray-700 mb-1">
-                                                Please select the gender you are most comfortable disclosing.
-                                            </label>
-                                            <div class="relative">
-                                                <select wire:model="demographicData.gender"
-                                                        class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition-all duration-150 appearance-none">
-                                                    <option value="">Select gender</option>
-                                                    <option value="male">Male</option>
-                                                    <option value="female">Female</option>
-                                                    <option value="other">Other</option>
-                                                    <option value="not_disclosed">Prefer not to disclose</option>
-                                                </select>
-                                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            @error('demographicData.gender')
-                                            <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-
-                                        <!-- Number of Staff -->
-                                        <div class="form-group">
-                                            <label class="block text-sm font-medium text-gray-700 mb-1">
-                                                Number of staff in your organization (including yourself).
-                                            </label>
-                                            <input type="number" wire:model="demographicData.number_staff"
-                                                   class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition-all duration-150 placeholder-gray-400"
-                                                   placeholder="Number only">
-                                            @error('demographicData.number_staff')
-                                            <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-                                        <!-- Yearly Compensation -->
-                                        <div class="form-group">
-                                            <label class="block text-sm font-medium text-gray-700 mb-1">
-                                                Yearly compensation (before taxes/deductions).
-                                            </label>
-                                            <input type="number" wire:model="demographicData.yearly_compensation"
-                                                   class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition-all duration-150 placeholder-gray-400"
-                                                   placeholder="Number only">
-                                            @error('demographicData.yearly_compensation')
-                                            <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-
-                                        <!-- Job Title -->
-                                        <div class="form-group">
-                                            <label class="block text-sm font-medium text-gray-700 mb-1">
-                                                Current or most recent job title/level.
-                                            </label>
-                                            <div class="relative">
-                                                <select wire:model="demographicData.job_title"
-                                                        class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition-all duration-150 appearance-none">
-                                                    <option value="">Select job title</option>
-                                                    <option value="Sole Practitioner">Sole Practitioner</option>
-                                                    <option value="Partner">Partner/Principle in public accounting</option>
-                                                    <option value="Junior">Junior or entry level</option>
-                                                    <option value="Intermediate">Intermediate with no supervision</option>
-                                                    <option value="Manager">Manager or Supervisor</option>
-                                                    <option value="Senior Manager">Senior Manager</option>
-                                                    <option value="Director">Director or VP</option>
-                                                    <option value="Instructor">Instructor, lecturer, or professor</option>
-                                                    <option value="President">President, CEO, or owner</option>
-                                                    <option value="Other">Other</option>
-                                                </select>
-                                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                                    <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                        <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            @error('demographicData.job_title')
-                                            <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
-                                            @enderror
-                                        </div>
-
-                                        <!-- Number Overseen -->
-                                        <div class="form-group">
-                                            <label class="block text-sm font-medium text-gray-700 mb-1">
-                                                Number of individuals you oversee/overseen.
-                                            </label>
-                                            <input type="number" wire:model="demographicData.number_overseen"
-                                                   class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm transition-all duration-150 placeholder-gray-400"
-                                                   placeholder="Number only">
-                                            @error('demographicData.number_overseen')
-                                            <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
-                                            @enderror
-                                        </div>
+                                <!-- Languages -->
+                                <div class="md:col-span-2 space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Please select the languages you are fluent in.
+                                    </label>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.languages" value="english"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">English</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.languages" value="french"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">French</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.languages" value="indigenous"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Canadian Indigenous</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.languages" value="other"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Other</span>
+                                        </label>
                                     </div>
                                 </div>
 
-                                <!-- Full Width Fields -->
-                                <div class="mt-8 space-y-8">
-                                    <!-- Languages -->
-                                    <div class="form-group">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                                            Please select the languages you are fluent in.
+                                <!-- Legacy Designation -->
+                                <div class="md:col-span-2 space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Please indicate the legacy designation(s) that you hold.
+                                    </label>
+                                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.legacy_designation" value="CGA"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CGA</span>
                                         </label>
-                                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="checkbox" wire:model="demographicData.languages" value="english"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">English</span>
-                                            </label>
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="checkbox" wire:model="demographicData.languages" value="french"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">French</span>
-                                            </label>
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="checkbox" wire:model="demographicData.languages" value="indigenous"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">Canadian Indigenous</span>
-                                            </label>
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="checkbox" wire:model="demographicData.languages" value="other"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">Other</span>
-                                            </label>
-                                        </div>
-                                        @error('demographicData.languages')
-                                        <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
-                                        @enderror
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.legacy_designation" value="CA"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CA</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.legacy_designation" value="CMA"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CMA</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.legacy_designation" value="other"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Other</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.legacy_designation" value="none"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">None</span>
+                                        </label>
                                     </div>
+                                </div>
 
-                                    <!-- Legacy Designation -->
-                                    <div class="form-group">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                                            Please indicate the legacy designation(s) that you hold.
-                                        </label>
-                                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="checkbox" wire:model="demographicData.legacy_designation" value="CGA"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">CGA</span>
-                                            </label>
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="checkbox" wire:model="demographicData.legacy_designation" value="CA"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">CA</span>
-                                            </label>
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="checkbox" wire:model="demographicData.legacy_designation" value="CMA"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">CMA</span>
-                                            </label>
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="checkbox" wire:model="demographicData.legacy_designation" value="other"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">Other</span>
-                                            </label>
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="checkbox" wire:model="demographicData.legacy_designation" value="none"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">None</span>
-                                            </label>
-                                        </div>
-                                        @error('demographicData.legacy_designation')
-                                        <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
-                                        @enderror
-                                    </div>
+                                <!-- Primary Provincial CPA Body -->
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Please select the Primary Provincial CPA body you are a member of.
+                                    </label>
+                                    <select wire:model="demographicData.provincial_cpa_body"
+                                            class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm appearance-none bg-white">
+                                        <option value="">Select primary body</option>
+                                        <option value="CPA Alberta">CPA Alberta</option>
+                                        <option value="CPA British Columbia">CPA British Columbia</option>
+                                        <option value="CPA Manitoba">CPA Manitoba</option>
+                                        <option value="CPA New Brunswick">CPA New Brunswick</option>
+                                        <option value="CPA Newfoundland and Labrador">CPA Newfoundland and Labrador</option>
+                                        <option value="CPA Nova Scotia">CPA Nova Scotia</option>
+                                        <option value="CPA Ontario">CPA Ontario</option>
+                                        <option value="CPA Prince Edward Island">CPA Prince Edward Island</option>
+                                        <option value="CPA Quebec">CPA Quebec</option>
+                                        <option value="CPA Saskatchewan">CPA Saskatchewan</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
 
-                                    <!-- Nature of Work -->
-                                    <div class="form-group">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                                            Please indicate the nature of your work.
+                                <!-- All Provincial Bodies -->
+                                <div class="md:col-span-2 space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Please select all the Provincial bodies where you hold membership.
+                                    </label>
+                                    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.provincial_bodies" value="CPA Alberta"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CPA Alberta</span>
                                         </label>
-                                        <div class="grid grid-cols-2 sm:grid-cols-5 gap-4">
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="radio" wire:model="demographicData.work_nature" value="Full-time"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded-full focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">Full-time</span>
-                                            </label>
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="radio" wire:model="demographicData.work_nature" value="Part-time"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded-full focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">Part-time</span>
-                                            </label>
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="radio" wire:model="demographicData.work_nature" value="Contract"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded-full focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">Contract</span>
-                                            </label>
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="radio" wire:model="demographicData.work_nature" value="Unemployed"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded-full focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">Unemployed</span>
-                                            </label>
-                                            <label class="flex items-center p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-all duration-150 cursor-pointer">
-                                                <input type="radio" wire:model="demographicData.work_nature" value="Retired"
-                                                       class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded-full focus:ring-blue-500 mr-3">
-                                                <span class="text-gray-700">Retired</span>
-                                            </label>
-                                        </div>
-                                        @error('demographicData.work_nature')
-                                        <p class="text-sm text-red-600 italic mt-1">{{ $message }}</p>
-                                        @enderror
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.provincial_bodies" value="CPA British Columbia"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CPA British Columbia</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.provincial_bodies" value="CPA Manitoba"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CPA Manitoba</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.provincial_bodies" value="CPA New Brunswick"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CPA New Brunswick</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.provincial_bodies" value="CPA Newfoundland and Labrador"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CPA Newfoundland and Labrador</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.provincial_bodies" value="CPA Nova Scotia"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CPA Nova Scotia</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.provincial_bodies" value="CPA Ontario"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CPA Ontario</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.provincial_bodies" value="CPA Prince Edward Island"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CPA Prince Edward Island</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.provincial_bodies" value="CPA Quebec"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CPA Quebec</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.provincial_bodies" value="CPA Saskatchewan"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CPA Saskatchewan</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="checkbox" wire:model="demographicData.provincial_bodies" value="Other"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Other</span>
+                                        </label>
                                     </div>
+                                </div>
+
+                                <!-- Years Since Designation -->
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Please indicate the years since you obtained your first accounting designation.
+                                    </label>
+                                    <input type="number" wire:model="demographicData.years_designation"
+                                           class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm placeholder-gray-400"
+                                           placeholder="Number only">
+                                </div>
+
+                                <!-- Industry -->
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Please indicate the type of industry that best fits where you work (or worked upon retirement).
+                                    </label>
+                                    <select wire:model="demographicData.industry"
+                                            class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm appearance-none bg-white bg-chevron">
+                                        <option value="">Select industry</option>
+                                        <option value="Public Practice">Public Practice</option>
+                                        <option value="Private Corporation">Private Corporation</option>
+                                        <option value="Publicly traded Corporation">Publicly traded Corporation</option>
+                                        <option value="Education">Education</option>
+                                        <option value="Government">Government</option>
+                                        <option value="Not-for-profit">Not-for-profit</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+
+                                <!-- Current Position -->
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Please indicate your current position (or your most recent position before retirement).
+                                    </label>
+                                    <select wire:model="demographicData.current_position"
+                                            class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm appearance-none bg-white bg-chevron">
+                                        <option value="">Select position</option>
+                                        <option value="Sole Proprietor">Sole Proprietor of an accounting firm</option>
+                                        <option value="Partner">Partner of an accounting firm</option>
+                                        <option value="Owner">Owner of a non-accounting organization</option>
+                                        <option value="Employee Accounting">Employee of an accounting firm</option>
+                                        <option value="Employee Non-Accounting">Employee of a non-accounting organization</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+
+                                <!-- Number of Staff -->
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Number of staff in your organization (including yourself) or at your last employer upon retirement.
+                                    </label>
+                                    <input type="number" wire:model="demographicData.number_staff"
+                                           class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm placeholder-gray-400"
+                                           placeholder="Number only">
+                                </div>
+
+                                <!-- Nature of Work -->
+                                <div class="md:col-span-2 space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Please indicate the nature of your work.
+                                    </label>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="radio" wire:model="demographicData.work_nature" value="Full-time"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded-full focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Full-time</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="radio" wire:model="demographicData.work_nature" value="Part-time"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded-full focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Part-time</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="radio" wire:model="demographicData.work_nature" value="Contract"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded-full focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Contract</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="radio" wire:model="demographicData.work_nature" value="Unemployed"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded-full focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Unemployed</span>
+                                        </label>
+                                        <label class="flex items-center space-x-2 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-300 bg-gray-50 hover:bg-blue-50 transition-colors">
+                                            <input type="radio" wire:model="demographicData.work_nature" value="Retired"
+                                                   class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded-full focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">Retired</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- Yearly Compensation -->
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Yearly compensation (before taxes/deductions) or compensation at retirement.
+                                    </label>
+                                    <input type="number" wire:model="demographicData.yearly_compensation"
+                                           class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm placeholder-gray-400"
+                                           placeholder="Number only">
+                                </div>
+
+                                <!-- Job Title -->
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Current job title/level or title/level at retirement.
+                                    </label>
+                                    <select wire:model="demographicData.job_title"
+                                            class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm appearance-none bg-white bg-chevron">
+                                        <option value="">Select job title</option>
+                                        <option value="Sole Practitioner">Sole Practitioner</option>
+                                        <option value="Partner">Partner/Principle in public accounting</option>
+                                        <option value="Junior">Junior or entry level</option>
+                                        <option value="Intermediate">Intermediate with no supervision</option>
+                                        <option value="Manager">Manager or Supervisor</option>
+                                        <option value="Senior Manager">Senior Manager</option>
+                                        <option value="Director">Director or VP</option>
+                                        <option value="Instructor">Instructor, lecturer, or professor</option>
+                                        <option value="President">President, CEO, or owner</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+
+                                <!-- Number Overseen -->
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">
+                                        Number of individuals you oversee in your current position or oversaw before retirement.
+                                    </label>
+                                    <input type="number" wire:model="demographicData.number_overseen"
+                                           class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm placeholder-gray-400"
+                                           placeholder="Number only">
                                 </div>
                             </div>
-                        @endif
+                        </div>
 
-                        <!-- Step 3: Career Satisfaction Questions -->
-                    @elseif($currentStep == 3)
-                        <div class="space-y-8">
+                        <!-- Step 4: EI and Career satisfaction questions (formerly step 3) -->
+                    @elseif($currentStep == 4)
+                        <div class="space-y-6 mt-4">
+                            <!-- Career Satisfaction Questions Section -->
+                            <div class="bg-blue-50 rounded-xl p-6 border border-blue-100">
+                                <h3 class="text-xl font-bold text-blue-700 mb-3">Career Satisfaction</h3>
+                                <p class="text-gray-700 leading-relaxed">
+                                    Please rate your satisfaction with various aspects of your career by selecting the appropriate option for each statement.
+                                </p>
+                            </div>
+
+                            <!-- Career Satisfaction Questions - unchanged -->
+                            <!-- Career Satisfaction Questions -->
+                            @foreach($careerSatisfactionQuestions as $index => $question)
+                                @if($question['question_type']['slug'] === 'likert-scale')
+                                    <!-- Question card with improved mobile view -->
+                                    <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm hover:border-blue-200 transition-colors duration-200">
+                                        <div class="flex items-start mb-4">
+                                            <!-- Question Number -->
+                                            <div class="flex-shrink-0 bg-blue-600 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                                                {{ $index + 1 }}
+                                            </div>
+                                            <!-- Question Text -->
+                                            <p class="text-base font-medium text-gray-900">
+                                                {{ $question['question_text'] }}
+                                            </p>
+                                        </div>
+
+                                        <!-- Desktop view (horizontal) -->
+                                        <div class="hidden md:grid md:grid-cols-5 gap-2 ml-11">
+                                            @foreach($question['options'] as $option)
+                                                <label class="flex flex-col items-center p-3 rounded-lg border border-gray-200 hover:border-blue-300 cursor-pointer transition-colors duration-200">
+                                                    <input type="radio"
+                                                           wire:model="answers.{{ $question['id'] }}.selected_option"
+                                                           value="{{ $option['id'] }}"
+                                                           class="h-5 w-5 text-blue-600 focus:ring-blue-500">
+                                                    <span class="mt-2 text-sm text-gray-700 text-center">
+                                    {{ $option['option_text'] }}
+                                </span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+
+                                        <!-- Mobile view (vertical) -->
+                                        <div class="md:hidden space-y-2 ml-11">
+                                            @foreach($question['options'] as $option)
+                                                <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:border-blue-300 cursor-pointer transition-colors duration-200">
+                                                    <input type="radio"
+                                                           wire:model="answers.{{ $question['id'] }}.selected_option"
+                                                           value="{{ $option['id'] }}"
+                                                           class="h-5 w-5 text-blue-600 focus:ring-blue-500 mr-3">
+                                                    <span class="text-sm text-gray-700">
+                                    {{ $option['option_text'] }}
+                                </span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
+
+                            <!-- EI Questions - unchanged -->
                             <div class="bg-blue-50 rounded-xl p-6 border border-blue-100">
                                 <p class="text-gray-700 leading-relaxed">
-                                    📊 This section uses the Perceived Career Satisfaction Scale (Greenhaus et al., 1990).
-                                    Please rate how much each statement applies to you:
+                                    The questions below are based on the GENOS Emotional Intelligence framework. They assess how you navigate through work-related emotionally intelligent situations.
+                                </p>
+                                <p class="text-gray-600 mt-2 italic">
+                                    Although you are free to skip any question, the accuracy of your EI score is dependent on the questions answered.
                                 </p>
                             </div>
-                            <div class="overflow-x-auto pb-4">
-                                <div class="min-w-[800px] md:min-w-full space-y-6">
-                                    @foreach($careerSatisfactionQuestions as $index => $question)
-                                        @if($question['question_type']['slug'] === 'likert-scale')
-                                            <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm hover:border-blue-200 transition-colors duration-200">
-                                                <div class="flex items-start mb-4">
-                                                    <!-- Question Number -->
-                                                    <div class="flex-shrink-0 bg-blue-600 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">
-                                                        {{ $index + 1 }}
-                                                    </div>
-                                                    <!-- Question Text -->
-                                                    <p class="text-base font-medium text-gray-900">
-                                                        {{ $question['question_text'] }}
-                                                        <span class="text-red-500 ml-1">*</span>
-                                                    </p>
-                                                </div>
-                                                <div class="grid grid-cols-5 gap-2 ml-11">
-                                                    @foreach($question['options'] as $option)
-                                                        <label class="flex flex-col items-center p-3 rounded-lg border border-gray-200 hover:border-blue-300 cursor-pointer transition-colors duration-200">
-                                                            <input type="radio"
-                                                                   wire:model="answers.{{ $question['id'] }}.selected_option"
-                                                                   value="{{ $option['id'] }}"
-                                                                   required
-                                                                   class="h-5 w-5 text-blue-600 focus:ring-blue-500">
-                                                            <span class="mt-2 text-sm text-gray-700 text-center">
-                                                            {{ $option['option_text'] }}
-                                                        </span>
-                                                        </label>
-                                                    @endforeach
-                                                </div>
-                                                @error("answers.{$question['id']}.selected_option")
-                                                <p class="mt-2 text-sm text-red-600 flex items-center ml-11">
-                                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                                                    </svg>
-                                                    {{ $message }}
-                                                </p>
-                                                @enderror
+
+                            @foreach($eiQuestions as $index => $question)
+                                @if($question['question_type']['slug'] === 'likert-scale')
+                                    <!-- Question card with improved mobile view -->
+                                    <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm hover:border-blue-200 transition-colors duration-200">
+                                        <div class="flex items-start mb-4">
+                                            <!-- Question Number -->
+                                            <div class="flex-shrink-0 bg-blue-600 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                                                {{ $index + 1 + count($careerSatisfactionQuestions) }}
                                             </div>
-                                        @endif
-                                    @endforeach
-                                </div>
-                            </div>
-                            <!-- Open-ended question -->
-                            <div class="bg-white p-6 rounded-lg border border-gray-100 shadow-sm">
-                                <p class="text-lg font-medium text-gray-900 mb-4">
-                                    Please use the space below to capture your thoughts about the challenges and opportunities you see in your career as a professional accountant.
-                                </p>
-                                <textarea wire:model="careerChallengesText" rows="5"
-                                          class="w-full rounded-lg border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 shadow-sm"
-                                          placeholder="Your answer">
-                                </textarea>
-                            </div>
+                                            <!-- Question Text -->
+                                            <p class="text-base font-medium text-gray-900">
+                                                {{ $question['question_text'] }}
+                                            </p>
+                                        </div>
+
+                                        <!-- Desktop view (horizontal) -->
+                                        <div class="hidden md:grid md:grid-cols-5 gap-2 ml-11">
+                                            @foreach($question['options'] as $option)
+                                                <label class="flex flex-col items-center p-3 rounded-lg border border-gray-200 hover:border-blue-300 cursor-pointer transition-colors duration-200">
+                                                    <input type="radio"
+                                                           wire:model="answers.{{ $question['id'] }}.selected_option"
+                                                           value="{{ $option['id'] }}"
+                                                           class="h-5 w-5 text-blue-600 focus:ring-blue-500">
+                                                    <span class="mt-2 text-sm text-gray-700 text-center">
+                                    {{ $option['option_text'] }}
+                                </span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+
+                                        <!-- Mobile view (vertical) -->
+                                        <div class="md:hidden space-y-2 ml-11">
+                                            @foreach($question['options'] as $option)
+                                                <label class="flex items-center p-3 rounded-lg border border-gray-200 hover:border-blue-300 cursor-pointer transition-colors duration-200">
+                                                    <input type="radio"
+                                                           wire:model="answers.{{ $question['id'] }}.selected_option"
+                                                           value="{{ $option['id'] }}"
+                                                           class="h-5 w-5 text-blue-600 focus:ring-blue-500 mr-3">
+                                                    <span class="text-sm text-gray-700">
+                                    {{ $option['option_text'] }}
+                                  </span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <!-- Add section break every 7 questions -->
+                                    @if(($index + 1) % 7 == 0 && ($index + 1) < count($eiQuestions))
+                                        <div class="border-t border-gray-200 my-8 pt-2 text-center">
+                                        <span class="inline-block px-4 py-1 bg-blue-50 rounded-full text-sm text-blue-600 font-medium">
+                                            Section {{ floor(($index + 1) / 7) + 1 }}
+                                        </span>
+                                        </div>
+                                    @endif
+                                @endif
+                            @endforeach
                         </div>
                     @endif
 
+                    <!-- Navigation Buttons -->
                     <div class="mt-12 flex justify-between">
                         @if($currentStep > 1)
                             <button type="button" wire:click="previousStep"
@@ -655,44 +748,27 @@
                         @else
                             <div></div>
                         @endif
-                            <button type="submit"
-                                    wire:loading.attr="disabled"
-                                    wire:loading.class="opacity-75 cursor-wait"
-                                    class="inline-flex items-center px-8 py-3 border border-transparent rounded-full font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg transform transition hover:scale-105 duration-200">
-    <span wire:loading.remove wire:target="nextStep">
-        {{ $currentStep < $totalSteps ? 'Continue →' : 'Submit Survey' }}
-    </span>
-                                <span wire:loading wire:target="nextStep" class="inline-flex items-center">
-        <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-        {{ $currentStep < $totalSteps ? 'Processing...' : 'Calculating Results...' }}
-    </span>
-                            </button>
+
+                        <button type="submit"
+                                wire:loading.attr="disabled"
+                                wire:loading.class="opacity-75 cursor-wait"
+                                class="inline-flex items-center px-8 py-3 border border-transparent rounded-full font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg transform transition hover:scale-105 duration-200">
+                            <span wire:loading.remove wire:target="nextStep">
+                                {{ $currentStep < $totalSteps ? 'Continue →' : 'Submit Survey' }}
+                            </span>
+                            <span wire:loading wire:target="nextStep" class="inline-flex items-center">
+                                <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                {{ $currentStep < $totalSteps ? 'Processing...' : 'Calculating Results...' }}
+                            </span>
+                        </button>
                     </div>
                 </form>
             </div>
-            <div wire:loading.flex wire:target="nextStep, submitSurvey"
-                 class="fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center">
-                <div class="bg-white rounded-lg p-8 max-w-md mx-auto text-center shadow-2xl">
-                    <div class="flex justify-center mb-6">
-                        <svg class="animate-spin h-12 w-12 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">Processing Your Response</h3>
-                    <p class="text-gray-600 mb-2">Please wait while we calculate your results...</p>
-                    <div class="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
-                        <div class="bg-blue-600 h-2.5 rounded-full animate-pulse" style="width: 100%"></div>
-                    </div>
-                    <p class="text-sm text-gray-500">This may take a few moments.</p>
-                </div>
-            </div>
         </div>
     @endif
-
 
     <script>
         function copyToClipboard(text) {
@@ -701,24 +777,15 @@
                 toast.className = 'fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg animate-slideIn';
                 toast.textContent = '✓ Copied to clipboard!';
                 document.body.appendChild(toast);
+
                 setTimeout(() => {
                     toast.remove();
                 }, 2000);
             });
         }
     </script>
+
     <style>
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-        .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
         @keyframes slideIn {
             from { transform: translateX(100%); }
             to { transform: translateX(0); }
@@ -731,6 +798,13 @@
         }
         .hover\:scale-105:hover {
             transform: scale(1.05);
+        }
+        /* Custom dropdown indicator */
+        .bg-chevron {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
         }
     </style>
 </div>
