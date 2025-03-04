@@ -12,7 +12,7 @@ class SurveyForm extends Component
 {
     public Survey $survey;
     public $currentStep = 1;
-    public $totalSteps = 4; // Using 4 steps total
+    public $totalSteps = 5; // Using 4 steps total
     public $demographicQuestions = [];
     public $careerSatisfactionQuestions = [];
     public $eiQuestions = []; // Added for EI specific questions
@@ -115,6 +115,8 @@ class SurveyForm extends Component
             . count($this->eiQuestions) . ' EI');
     }
 
+
+// In the nextStep method, modify the step 4 and add step 5 handling
     public function nextStep()
     {
         // Step 1: Consent form
@@ -146,19 +148,27 @@ class SurveyForm extends Component
         // Step 3: Demographics
         elseif ($this->currentStep == 3) {
             // No validation required for demographics - users can skip questions
-            // Proceed to EI and Career satisfaction questions
+            // Proceed to Career Satisfaction questions
             $this->currentStep = 4;
         }
-        // Step 4: EI and Career satisfaction questions
+        // Step 4: Career Satisfaction Questions (new separate step)
         elseif ($this->currentStep == 4) {
+            // No validation required - respondents can skip questions
+            // Proceed to EI questions
+            $this->currentStep = 5;
+        }
+        // Step 5: EI Questions (new separate step)
+        elseif ($this->currentStep == 5) {
             // No validation required - respondents can skip questions
             $this->submitSurvey(true);
         }
+        $this->dispatch('scrollToTop');
     }
 
     public function previousStep()
     {
         $this->currentStep = max(1, $this->currentStep - 1);
+        $this->dispatch('scrollToTop');
     }
 
     public function submitSurvey($includeAllQuestions = true)

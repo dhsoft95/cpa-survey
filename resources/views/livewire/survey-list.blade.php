@@ -94,10 +94,16 @@
         </div>
 
         <!-- Bottom Info Section (Research Disclosure) -->
-        <div class="mt-16 text-center bg-gray-50 p-6 rounded-xl max-w-3xl mx-auto">
-            <h3 class="text-xl font-bold text-gray-800 mb-3">About This Research</h3>
-            <p class="text-gray-600 mb-4">This is an independent research study on the relationship between emotional intelligence and career success among CPA professionals. This survey is not conducted by CPA Canada.</p>
-            <p class="text-gray-500 text-sm">Participation is voluntary and all data collected will be used for research purposes only. For questions about this study, please contact the research team.</p>
+        <div class="p-6 bg-white border-b border-gray-100">
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <h2 class="font-bold text-gray-800 mb-2">About this Research</h2>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    This is a comprehensive PhD research study, by a Canadian CPA, through Andrews University. It investigates the influence of EI, moderated by variables such as age etc. The study uses Genos EI framework. Career success is measured both subjectively and objectively. It is important that you complete all the questions as your responses will impact the validity of the findings.
+                </p>
+                <p class="text-gray-600 text-sm mt-2">
+                    Participation is voluntary and all data collected will be used for research purposes only. For questions about this study, please contact <a href="mailto:jenipher@andrews.edu" class="text-blue-600 hover:underline">jenipher@andrews.edu</a>
+                </p>
+            </div>
         </div>
     @endif
 </div>
