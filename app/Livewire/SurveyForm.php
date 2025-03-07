@@ -12,7 +12,7 @@ class SurveyForm extends Component
 {
     public Survey $survey;
     public $currentStep = 1;
-    public $totalSteps = 5; // Using 4 steps total
+    public $totalSteps = 5; // Using 5 steps total
     public $demographicQuestions = [];
     public $careerSatisfactionQuestions = [];
     public $eiQuestions = []; // Added for EI specific questions
@@ -39,6 +39,7 @@ class SurveyForm extends Component
     public $completionCode = null;
     public $consentAgreed = false;
     public $careerChallengesText = null;
+    public $showNonCpaThanks = false;
 
     // Score display properties
     public $showScores = false;
@@ -115,21 +116,10 @@ class SurveyForm extends Component
             . count($this->eiQuestions) . ' EI');
     }
 
-
-// In the nextStep method, modify the step 4 and add step 5 handling
     public function nextStep()
     {
-        // Step 1: Consent form
+        // Step 1: CPA member check (was Step 2)
         if ($this->currentStep == 1) {
-            $this->validate([
-                'consentAgreed' => 'accepted',
-            ], [
-                'consentAgreed.accepted' => 'You must agree to the consent form to proceed.'
-            ]);
-            $this->currentStep = 2;
-        }
-        // Step 2: CPA member check
-        elseif ($this->currentStep == 2) {
             $this->validate([
                 'demographicData.is_cpa_member' => 'required',
             ], [
@@ -138,11 +128,20 @@ class SurveyForm extends Component
 
             // End survey immediately if not a CPA member
             if ($this->demographicData['is_cpa_member'] === 'no') {
-                $this->submitSurvey(false);
+                $this->showNonCpaThanks = true;
                 return;
             }
 
-            // For CPA members, proceed to demographics section
+            // For CPA members, proceed to consent form
+            $this->currentStep = 2;
+        }
+        // Step 2: Consent form (was Step 1)
+        elseif ($this->currentStep == 2) {
+            $this->validate([
+                'consentAgreed' => 'accepted',
+            ], [
+                'consentAgreed.accepted' => 'You must agree to the consent form to proceed.'
+            ]);
             $this->currentStep = 3;
         }
         // Step 3: Demographics
@@ -151,13 +150,13 @@ class SurveyForm extends Component
             // Proceed to Career Satisfaction questions
             $this->currentStep = 4;
         }
-        // Step 4: Career Satisfaction Questions (new separate step)
+        // Step 4: Career Satisfaction Questions
         elseif ($this->currentStep == 4) {
             // No validation required - respondents can skip questions
             // Proceed to EI questions
             $this->currentStep = 5;
         }
-        // Step 5: EI Questions (new separate step)
+        // Step 5: EI Questions
         elseif ($this->currentStep == 5) {
             // No validation required - respondents can skip questions
             $this->submitSurvey(true);

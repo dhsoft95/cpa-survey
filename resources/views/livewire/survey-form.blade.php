@@ -2,7 +2,6 @@
     @if($completionCode)
         <!-- Success Card with Scores -->
         <div class="bg-white shadow-xl rounded-2xl p-8 text-center transform transition-all duration-300 hover:shadow-2xl">
-            <!-- This section remains unchanged -->
             <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6 animate-bounce">
                 <svg class="h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -11,9 +10,8 @@
 
             <h2 class="mt-4 text-3xl font-bold text-gray-900 font-serif">Thank You!</h2>
             <p class="mt-2 text-lg text-gray-600">Your responses have been successfully recorded</p>
-            <p class="text-sm text-gray-500 mt-2">The submission of the questionnaire serves as a form of implied consent.</p>
+{{--            <p class="text-sm text-gray-500 mt-2">The submission of the questionnaire serves as a form of implied consent.</p>--}}
 
-            <!-- The section to update is the score results display section -->
             @if($showScores)
                 <!-- Score Results Section -->
                 <div class="mt-8 p-6 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl border border-blue-100">
@@ -27,9 +25,9 @@
                             <p class="text-gray-500 text-sm">Based on your responses to EI questions</p>
                         </div>
                         <div class="text-right">
-                <span class="text-3xl font-bold text-blue-600">
-                    {{ $totalScore }}
-                </span>
+                            <span class="text-3xl font-bold text-blue-600">
+                                {{ $totalScore }}
+                            </span>
                             <span class="text-sm text-gray-500"> points</span>
                         </div>
                     </div>
@@ -102,11 +100,10 @@
 
                     <div class="text-sm text-gray-600 mt-4 bg-blue-50 p-4 rounded-lg">
                         <p class="font-medium mb-2">What does this mean?</p>
-                        <p>Your EI profile shows your emotional intelligence strengths and areas for potential development based on the questions you answered. The GENOS model measures 7 key dimensions of emotional intelligence in the workplace. At the end of the study, summary results will be shared to give you the opportunity to assess your score with those of your peers.</p>
+                        <p> Although the Genos Instrument is for research purposes only, if you answered all questions, your scores provide insights about strengths and areas to develop. At the end of the study, summary results will be shared to give you the opportunity to assess your score with those of your peers.</p>
                     </div>
                 </div>
             @endif
-
             <div class="mt-8 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
                 <p class="text-sm text-gray-600 mb-2 font-medium">Your completion code:</p>
                 <div class="flex items-center justify-center space-x-3">
@@ -126,38 +123,29 @@
                 </p>
             </div>
         </div>
+
+    @elseif($showNonCpaThanks)
+        <!-- Simple Thank You Card for Non-CPA Members -->
+        <div class="bg-white shadow-xl rounded-2xl p-8 text-center transform transition-all duration-300 hover:shadow-2xl">
+            <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6">
+                <svg class="h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+
+            <h2 class="mt-4 text-3xl font-bold text-gray-900 font-serif">Thank You!</h2>
+            <p class="mt-2 text-lg text-gray-600">This survey is designed for CPA Canada members only.</p>
+            <p class="mt-4 text-gray-600">We appreciate your interest in our research.</p>
+
+            <div class="mt-8">
+                <a href="/" class="inline-flex items-center px-6 py-3 border border-transparent rounded-full font-medium text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg transform transition hover:scale-105 duration-200">
+                    Return to Home
+                </a>
+            </div>
+        </div>
     @else
         <!-- Survey Container -->
         <div class="bg-white shadow-xl rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
-            <!-- Header/Intro Section - unchanged -->
-            <div class="p-8 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-indigo-50">
-                <h1 class="text-3xl font-bold text-gray-900 font-serif">EI and Career Success of CPAs</h1>
-                <p class="mt-3 text-gray-600 leading-relaxed">
-                    Take 25 minutes to share your valuable experience as a CPA professional and help close the gap in our understanding of the impact of Emotional intelligence (EI) on the career success of CPAs.
-                </p>
-                <div class="mt-4">
-                    <p class="font-medium text-blue-700">In appreciation of your time, you get:</p>
-                    <ul class="mt-2 space-y-1 text-gray-600 ml-5 list-disc">
-                        <li>Personal EI score report (based on GENOS Instrument)</li>
-                        <li>Enhanced insights into work related EI behaviors</li>
-                        <li>Opportunity to reflect on your work behaviours</li>
-                        <li>Chance to win $100 Visa gift card</li>
-                    </ul>
-                </div>
-            </div>
-
-            <!-- About Research Section - unchanged -->
-            <div class="p-6 bg-white border-b border-gray-100">
-                <div class="bg-blue-50 p-4 rounded-lg">
-                    <h2 class="font-bold text-gray-800 mb-2">About this Research</h2>
-                    <p class="text-gray-600 text-sm leading-relaxed">
-                        This is a comprehensive PhD research study, by a Canadian CPA, through Andrews University. It investigates the influence of EI, moderated by variables such as age etc. The study uses Genos EI framework. Career success is measured both subjectively and objectively. It is important that you complete all the questions as your responses will impact the validity of the findings.
-                    </p>
-                    <p class="text-gray-600 text-sm mt-2">
-                        Participation is voluntary and all data collected will be used for research purposes only. For questions about this study, please contact <a href="mailto:jenipher@andrews.edu" class="text-blue-600 hover:underline">jenipher@andrews.edu</a>
-                    </p>
-                </div>
-            </div>
 
             <!-- Progress Bar - Update to show 4 steps -->
             <div class="p-6 bg-white border-b border-gray-100">
@@ -196,7 +184,45 @@
                     <!-- Step 1: Consent Form (unchanged) -->
                     @if($currentStep == 1)
                         <div class="mb-8 p-6 bg-white rounded-xl border border-blue-100 shadow-sm">
+                            <h2 class="text-2xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 mb-6">
+                                EI and Career Success of CPAs
+                            </h2>
+
+                            <p class="text-2xl">
+                                This survey is for members of CPA canada
+                            </p>
+
+                            <div class="mt-8 space-y-4">
+                                <h3 class="text-lg font-medium text-gray-900">
+                                    Are you a member of CPA Canada? please see comments under that section
+                                </h3>
+                                <div class="flex flex-wrap gap-4">
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" wire:model="demographicData.is_cpa_member" value="yes"
+                                               class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                        <span class="text-gray-700">Yes</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="radio" wire:model="demographicData.is_cpa_member" value="no"
+                                               class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                        <span class="text-gray-700">No</span>
+                                    </label>
+                                </div>
+                                @error('demographicData.is_cpa_member')
+                                <p class="mt-2 text-sm text-red-600 flex items-center">
+                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                    </svg>
+                                    {{ $message }}
+                                </p>
+                                @enderror
+                            </div>
+                        </div>
+                        <!-- Step 2: CPA Membership check ONLY -->
+                    @elseif($currentStep == 2)
+                        <div class="mb-8 p-6 bg-white rounded-xl border border-blue-100 shadow-sm">
                             <h2 class="text-2xl font-bold text-gray-900 font-serif mb-4">Your Consent</h2>
+                            <p class="text-2xl font-bold text-blue font-serif mb-4">Please read the following before beginning the survey</p>
                             <div class="prose prose-blue max-w-none text-gray-700">
                                 <p class="mb-4">
                                     You are being invited to participate in a research study titled the Role of emotional Intelligence (EI) in the career success of professional accountants (CPAs). This study is being done by Jenipher Chitate (MBA, CPA, CMA) as part of a Doctorate Degree at Andrews University.
@@ -255,40 +281,6 @@
                             </div>
                         </div>
 
-                        <!-- Step 2: CPA Membership check ONLY -->
-                    @elseif($currentStep == 2)
-                        <div class="mb-8 p-6 bg-white rounded-xl border border-blue-100 shadow-sm">
-                            <h2 class="text-2xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 mb-6">
-                                EI and Career Success of CPAs
-                            </h2>
-
-                            <div class="mt-8 space-y-4">
-                                <h3 class="text-lg font-medium text-gray-900">
-                                    Are you a member of CPA Canada?
-                                </h3>
-                                <div class="flex flex-wrap gap-4">
-                                    <label class="flex items-center space-x-2 cursor-pointer">
-                                        <input type="radio" wire:model="demographicData.is_cpa_member" value="yes"
-                                               class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500">
-                                        <span class="text-gray-700">Yes</span>
-                                    </label>
-                                    <label class="flex items-center space-x-2 cursor-pointer">
-                                        <input type="radio" wire:model="demographicData.is_cpa_member" value="no"
-                                               class="h-5 w-5 text-blue-600 border-gray-300 focus:ring-blue-500">
-                                        <span class="text-gray-700">No</span>
-                                    </label>
-                                </div>
-                                @error('demographicData.is_cpa_member')
-                                <p class="mt-2 text-sm text-red-600 flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-                                    </svg>
-                                    {{ $message }}
-                                </p>
-                                @enderror
-                            </div>
-                        </div>
-
                         <!-- Step 3: Demographics section (moved from step 2) -->
                     @elseif($currentStep == 3)
                         <!-- Demographics Section - now its own step -->
@@ -303,9 +295,9 @@
                             </p>
 
                             <!-- Personal Information Section -->
-                            <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-lg shadow-sm">
-                                <h3 class="font-semibold text-white text-lg">Personal Information</h3>
-                            </div>
+{{--                            <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-lg shadow-sm">--}}
+{{--                                <h3 class="font-semibold text-white text-lg">Personal Information</h3>--}}
+{{--                            </div>--}}
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-2">
                                 <!-- Birth Year -->
@@ -369,9 +361,9 @@
                                 </div>
 
                                 <!-- Professional Background Section -->
-                                <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-lg shadow-sm mt-6">
-                                    <h3 class="font-semibold text-white text-lg">Professional Background</h3>
-                                </div>
+{{--                                <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-lg shadow-sm mt-6">--}}
+{{--                                    <h3 class="font-semibold text-white text-lg">Professional Background</h3>--}}
+{{--                                </div>--}}
 
                                 <!-- Legacy Designation -->
                                 <div class="md:col-span-2 space-y-2">
@@ -435,9 +427,9 @@
                                 </div>
 
                                 <!-- Employment Information Section -->
-                                <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-lg shadow-sm mt-6">
-                                    <h3 class="font-semibold text-white text-lg">Employment Information</h3>
-                                </div>
+{{--                                <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-lg shadow-sm mt-6">--}}
+{{--                                    <h3 class="font-semibold text-white text-lg">Employment Information</h3>--}}
+{{--                                </div>--}}
 
                                 <!-- Industry -->
                                 <div class="md:col-span-2 space-y-2">
@@ -514,9 +506,9 @@
                                 </div>
 
                                 <!-- Career Success Indicators Section -->
-                                <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-lg shadow-sm mt-6">
-                                    <h3 class="font-semibold text-white text-lg">Career Success Indicators</h3>
-                                </div>
+{{--                                <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-lg shadow-sm mt-6">--}}
+{{--                                    <h3 class="font-semibold text-white text-lg">Career Success Indicators</h3>--}}
+{{--                                </div>--}}
 
                                 <!-- Yearly Compensation -->
                                 <div class="md:col-span-2 space-y-2">
@@ -560,6 +552,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <!-- Step 4: Career Satisfaction Questions (now its own step) -->
                     @elseif($currentStep == 4)
                         <div class="space-y-6 mt-4">
@@ -570,7 +563,6 @@
                                     The section below is based on the Perceived Career Satisfaction Scale (Greenhaus, Parasuraman, & Wormley, 1990). Please indicate the extent to which the following statements apply to your situation.
                                 </p>
                             </div>
-
                             <!-- Career Satisfaction Questions -->
                             @foreach($careerSatisfactionQuestions as $index => $question)
                                 @if($question['question_type']['slug'] === 'likert-scale')
@@ -626,23 +618,23 @@
                         <div class="space-y-6 mt-4">
                             <!-- EI Questions Section -->
                             <div class="bg-blue-50 rounded-xl p-6 border border-blue-100">
-                                <p class="text-gray-700 leading-relaxed">
-                                    The questions below are based on the GENOS Emotional Intelligence framework. They assess how you navigate through work-related emotionally intelligent situations.
-                                </p>
-                                <p class="text-gray-600 mt-2 italic">
-                                    Although you are free to skip any question, the accuracy of your EI score is dependent on the questions answered.
-                                </p>
+{{--                                <p class="text-gray-700 leading-relaxed">--}}
+{{--                                    The questions below are based on the GENOS Emotional Intelligence framework. They assess how you navigate through work-related emotionally intelligent situations.--}}
+{{--                                </p>--}}
+{{--                                <p class="text-gray-600 mt-2 italic">--}}
+{{--                                    Although you are free to skip any question, the accuracy of your EI score is dependent on the questions answered.--}}
+{{--                                </p>--}}
 
                                 <div class="mt-6">
                                     <h2 class="text-xl font-bold text-gray-800 mb-3">EI and Career Success of CPAs</h2>
-                                    <p class="text-gray-700 mb-4">
-                                        Fully complete all questions to help shape the CPA profession and get a chance to win a $100 Visa gift card, your EI score, and an enhanced appreciation of work-related situations impacted by EI.
-                                    </p>
+{{--                                    <p class="text-gray-700 mb-4">--}}
+{{--                                        Fully complete all questions to help shape the CPA profession and get a chance to win a $100 Visa gift card, your EI score, and an enhanced appreciation of work-related situations impacted by EI.--}}
+{{--                                    </p>--}}
                                     <p class="text-gray-700 mb-4">
                                         This section captures your EI scores. The scores are assessed using the Genos Emotional Intelligence Instrument which measures EI as exhibited in work-related situations. The section and questions are replicated from the Genos EI self-assessment Instrument, Copyright © Genos 2014.
                                     </p>
                                     <p class="text-gray-700 mb-4">
-                                        Please read the instructions carefully and remember to complete all questionnaire questions so you can get your EI score. The Genos EI Self Assessment has been designed to measure how often you believe you demonstrate emotionally intelligent behaviours at work.
+                                        Please read the instructions carefully and remember to complete all questionnaire questions so you can get your EI score.<br> The Genos EI Self Assessment has been designed to measure how often you believe you demonstrate emotionally intelligent behaviours at work.
                                     </p>
                                     <p class="text-gray-700 mb-4">
                                         There are no right or wrong answers. However, it is essential that your responses truly reflect your beliefs regarding how often you demonstrate the behaviour in question. You should not answer in a way that you think sounds good or acceptable. In general try not to spend too long thinking about responses. Most often the first answer that occurs to you is the most accurate. However, do not rush your responses or respond without giving due consideration to each statement.
@@ -668,6 +660,8 @@
                                     </p>
                                     <p class="text-gray-700">
                                         There is no time limit; however it should take between 15-25 minutes to complete.
+                                    </p> <p class="text-gray-700">
+                                        Please note that, although you are free to skip any question, the validity of the research findings and the accuracy of your EI score depends on the completeness of this survey.
                                     </p>
                                 </div>
                             </div>
