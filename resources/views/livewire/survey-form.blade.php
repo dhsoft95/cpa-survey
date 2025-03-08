@@ -187,14 +187,12 @@
                             <h2 class="text-2xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 mb-6">
                                 Are you a CPA?
                             </h2>
-
                             <p class="text-2xl">
                                 This survey is for members of CPA canada
                             </p>
-
                             <div class="mt-8 space-y-4">
                                 <h3 class="text-lg font-medium text-gray-900">
-                                    Are you a member of CPA Canada? please see comments under that section
+                                    Are you a member of CPA Canada?
                                 </h3>
                                 <div class="flex flex-wrap gap-4">
                                     <label class="flex items-center space-x-2 cursor-pointer">
