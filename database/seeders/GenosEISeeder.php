@@ -8,6 +8,7 @@ use App\Models\QuestionType;
 use App\Models\Survey;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class GenosEISeeder extends Seeder
 {
@@ -156,206 +157,171 @@ class GenosEISeeder extends Seeder
             5 => 'Almost Always',
         ];
 
-        // Create each question and its options
-        DB::transaction(function () use ($survey, $likertType, $questions, $likertOptions, $reverseScored, $categories, $categoryMappings) {
-            // Get existing questions for this survey to avoid duplicates
-            $existingQuestions = Question::where('survey_id', $survey->id)->get();
+        // Check for existing questions
+        $this->command->info('Checking for question #3 specifically...');
+        $question3Exists = Question::where('survey_id', $survey->id)
+            ->where('settings->question_number', '3')
+            ->exists();;
 
-            // Skip seeding if we already have all 70 questions
-            if ($existingQuestions->count() >= 70) {
-                $this->command->info('Survey already has all 70 EI questions. Skipping question creation.');
-                return;
-            }
+        if (!$question3Exists) {
+            $this->command->info('Question #3 is missing! Will create it...');
 
-            $questionOrder = $existingQuestions->count() + 1;
-
-            foreach ($questions as $number => $text) {
-                // Determine which category this question belongs to
+            // Add just question 3 if it's missing
+            DB::transaction(function () use ($survey, $likertType, $questions, $likertOptions, $reverseScored, $categories, $categoryMappings) {
+                // Determine which category question 3 belongs to
                 $category = null;
                 foreach ($categoryMappings as $cat => $questionNumbers) {
-                    if (in_array($number, $questionNumbers)) {
+                    if (in_array(3, $questionNumbers)) {
                         $category = $cat;
                         break;
                     }
                 }
 
-                // Create the question
-                $isReversed = in_array($number, $reverseScored);
-                $question = Question::create([
-                    'survey_id' => $survey->id,
-                    'question_type_id' => $likertType->id,
-                    'question_text' => $text,
-                    'help_text' => null,
-                    'is_required' => false, // Make non-required so users can skip
-                    'order' => $questionOrder++,
-                    'settings' => [
+                if ($category === null) {
+                    $this->command->error("Question #3 does not have a category mapping. Cannot create.");
+                    return;
+                }
+
+                // Get the current highest order value
+                $questionOrder = Question::where('survey_id', $survey->id)->max('order') ?? 0;
+                $questionOrder++;
+
+                // Create question 3
+                $isReversed = in_array(3, $reverseScored);
+                try {
+                    $question = Question::create([
+                        'survey_id' => $survey->id,
+                        'question_type_id' => $likertType->id,
+                        'question_text' => $questions[3],
+                        'help_text' => null,
+                        'is_required' => false,
+                        'order' => $questionOrder,
+                        'settings' => [
+                            'category' => $category,
+                            'category_name' => $categories[$category] ?? null,
+                            'question_number' => 3,
+                            'is_reversed' => $isReversed,
+                        ],
+                    ]);
+
+                    $this->command->info("Created question #3: {$questions[3]}");
+
+                    // Create options for this question
+                    foreach ($likertOptions as $value => $optionText) {
+                        // For reversed questions, we invert the scores
+                        $score = $isReversed ? (6 - $value) : $value;
+
+                        QuestionOption::create([
+                            'question_id' => $question->id,
+                            'option_text' => $optionText,
+                            'order' => $value,
+                            'score' => $score,
+                        ]);
+                    }
+                } catch (\Exception $e) {
+                    $this->command->error("Error creating question #3: " . $e->getMessage());
+                    Log::error("Failed to create question #3", [
+                        'exception' => $e,
+                        'text' => $questions[3],
                         'category' => $category,
-                        'category_name' => $categories[$category] ?? null,
-                        'question_number' => $number,
-                        'is_reversed' => $isReversed,
-                    ],
-                ]);
-
-                $this->command->info("Created question #{$number}: {$text}");
-
-                // Create options for this question
-                foreach ($likertOptions as $value => $optionText) {
-                    // For reversed questions, we invert the scores
-                    $score = $isReversed ? (6 - $value) : $value;
-
-                    QuestionOption::create([
-                        'question_id' => $question->id,
-                        'option_text' => $optionText,
-                        'order' => $value,
-                        'score' => $score,
                     ]);
                 }
+            });
+        } else {
+            $this->command->info('Question #3 already exists in the database.');
+        }
+
+        // Check for any other missing questions
+        $this->command->info('Checking for other missing questions...');
+        $missingQuestions = [];
+        for ($i = 1; $i <= 70; $i++) {
+            $exists = Question::where('survey_id', $survey->id)
+                ->where('settings->question_number', (string)$i) // Cast to string
+                ->exists();
+            if (!$exists) {
+                $missingQuestions[] = $i;
             }
+        }
 
-            $this->command->info('Added all EI questions with appropriate scoring!');
-        });
+        if (empty($missingQuestions)) {
+            $this->command->info('All 70 questions are now in the database!');
+        } else {
+            $this->command->error('Still missing questions: ' . implode(', ', $missingQuestions));
 
-        // Now create the career satisfaction questions
-        $careerSatisfactionQuestions = [
-            'I am satisfied with the success I have achieved in my career.',
-            'I am satisfied with the progress I have made toward meeting my overall career goals.',
-            'I am satisfied with the progress I have made toward meeting my goals for income.',
-            'I am satisfied with the progress I have made toward meeting my goals for advancement.',
-            'I am satisfied with the progress I have made toward meeting my goals for the development of new skills.',
-        ];
+            // Create all other missing questions
+            $this->command->info('Creating remaining missing questions...');
 
-        DB::transaction(function () use ($survey, $likertType, $careerSatisfactionQuestions) {
-            // Check if we already have career satisfaction questions
-            $existingCount = Question::where('survey_id', $survey->id)
-                ->where('question_text', 'like', '%satisfied%')
-                ->count();
+            DB::transaction(function () use ($survey, $likertType, $questions, $likertOptions, $reverseScored, $categories, $categoryMappings, $missingQuestions) {
+                // Get the current highest order value
+                $questionOrder = Question::where('survey_id', $survey->id)->max('order') ?? 0;
+                $questionOrder++;
 
-            if ($existingCount >= count($careerSatisfactionQuestions)) {
-                $this->command->info('Career satisfaction questions already exist. Skipping creation.');
-                return;
-            }
+                foreach ($missingQuestions as $number) {
+                    // Determine which category this question belongs to
+                    $category = null;
+                    foreach ($categoryMappings as $cat => $questionNumbers) {
+                        if (in_array($number, $questionNumbers)) {
+                            $category = $cat;
+                            break;
+                        }
+                    }
 
-            // Get the current highest order value
-            $maxOrder = Question::where('survey_id', $survey->id)->max('order') ?? 0;
-            $order = $maxOrder + 1;
+                    if ($category === null) {
+                        $this->command->error("Question #{$number} does not have a category mapping. Skipping.");
+                        continue;
+                    }
 
-            foreach ($careerSatisfactionQuestions as $text) {
-                $question = Question::create([
-                    'survey_id' => $survey->id,
-                    'question_type_id' => $likertType->id,
-                    'question_text' => $text,
-                    'help_text' => null,
-                    'is_required' => false,
-                    'order' => $order++,
-                    'settings' => [
-                        'category' => 'career_satisfaction',
-                    ],
-                ]);
+                    // Create the question
+                    $isReversed = in_array($number, $reverseScored);
+                    try {
+                        $question = Question::create([
+                            'survey_id' => $survey->id,
+                            'question_type_id' => $likertType->id,
+                            'question_text' => $questions[$number],
+                            'help_text' => null,
+                            'is_required' => false,
+                            'order' => $questionOrder++,
+                            'settings' => [
+                                'category' => $category,
+                                'category_name' => $categories[$category] ?? null,
+                                'question_number' => $number,
+                                'is_reversed' => $isReversed,
+                            ],
+                        ]);
 
-                $this->command->info("Created career satisfaction question: {$text}");
+                        $this->command->info("Created question #{$number}: {$questions[$number]}");
 
-                // Create the satisfaction scale options
-                $satisfactionOptions = [
-                    1 => 'Strongly Disagree',
-                    2 => 'Disagree',
-                    3 => 'Neutral',
-                    4 => 'Agree',
-                    5 => 'Strongly Agree',
-                ];
+                        // Create options for this question
+                        foreach ($likertOptions as $value => $optionText) {
+                            // For reversed questions, we invert the scores
+                            $score = $isReversed ? (6 - $value) : $value;
 
-                foreach ($satisfactionOptions as $value => $optionText) {
-                    QuestionOption::create([
-                        'question_id' => $question->id,
-                        'option_text' => $optionText,
-                        'order' => $value,
-                        'score' => $value,
-                    ]);
+                            QuestionOption::create([
+                                'question_id' => $question->id,
+                                'option_text' => $optionText,
+                                'order' => $value,
+                                'score' => $score,
+                            ]);
+                        }
+                    } catch (\Exception $e) {
+                        $this->command->error("Error creating question #{$number}: " . $e->getMessage());
+                        Log::error("Failed to create question #{$number}", [
+                            'exception' => $e,
+                            'text' => $questions[$number],
+                            'category' => $category,
+                        ]);
+                    }
                 }
-            }
+            });
+        }
 
-            $this->command->info('Added all career satisfaction questions!');
-        });
+        // Final verification
+        $eiCount = Question::where('survey_id', $survey->id)
+            ->whereNotNull('settings->category')
+            ->whereIn('settings->category', array_keys($categories))
+            ->count();
 
-        // Create demographic questions
-        $demographicQuestions = [
-            [
-                'text' => 'Are you a member of CPA Canada?',
-                'type' => 'multiple-choice',
-                'options' => [
-                    'Yes' => null,
-                    'No' => null,
-                ],
-            ],
-            [
-                'text' => 'Please indicate the year you were born.',
-                'type' => 'dropdown',
-                'options' => array_combine(
-                    range(1940, 2005),
-                    range(1940, 2005)
-                ),
-            ],
-            [
-                'text' => 'Please select the gender you are most comfortable disclosing.',
-                'type' => 'dropdown',
-                'options' => [
-                    'Male' => null,
-                    'Female' => null,
-                    'Other' => null,
-                    'Prefer not to disclose' => null,
-                ],
-            ],
-            // Add other demographic questions here...
-        ];
-
-        DB::transaction(function () use ($survey, $multipleChoice, $dropdown, $demographicQuestions) {
-            // Check if we already have demographic questions
-            $existingCount = Question::where('survey_id', $survey->id)
-                ->whereNotIn('question_text', ['%satisfied%', '%emotional intelligence%'])
-                ->count();
-
-            if ($existingCount >= count($demographicQuestions)) {
-                $this->command->info('Demographic questions already exist. Skipping creation.');
-                return;
-            }
-
-            // Get question types
-            $types = [
-                'multiple-choice' => $multipleChoice->id,
-                'dropdown' => $dropdown->id,
-            ];
-
-            // Get the current highest order value
-            $maxOrder = Question::where('survey_id', $survey->id)->max('order') ?? 0;
-            $order = $maxOrder + 1;
-
-            foreach ($demographicQuestions as $questionData) {
-                $question = Question::create([
-                    'survey_id' => $survey->id,
-                    'question_type_id' => $types[$questionData['type']],
-                    'question_text' => $questionData['text'],
-                    'help_text' => $questionData['help_text'] ?? null,
-                    'is_required' => $questionData['required'] ?? false,
-                    'order' => $order++,
-                    'settings' => [
-                        'category' => 'demographic',
-                    ],
-                ]);
-
-                $this->command->info("Created demographic question: {$questionData['text']}");
-
-                // Create options
-                $optionOrder = 1;
-                foreach ($questionData['options'] as $optionText => $score) {
-                    QuestionOption::create([
-                        'question_id' => $question->id,
-                        'option_text' => $optionText,
-                        'order' => $optionOrder++,
-                        'score' => $score,
-                    ]);
-                }
-            }
-
-            $this->command->info('Added all demographic questions!');
-        });
+        $this->command->info("Total EI questions in database after fix: {$eiCount}");
+        Log::info("Total EI questions in database after fix: {$eiCount}");
     }
 }

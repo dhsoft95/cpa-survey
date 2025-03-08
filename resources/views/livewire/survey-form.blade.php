@@ -185,7 +185,7 @@
                     @if($currentStep == 1)
                         <div class="mb-8 p-6 bg-white rounded-xl border border-blue-100 shadow-sm">
                             <h2 class="text-2xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 mb-6">
-                                EI and Career Success of CPAs
+                                Are you a CPA?
                             </h2>
 
                             <p class="text-2xl">
@@ -287,11 +287,12 @@
                         <!-- Demographics Section -->
                         <div class="bg-white rounded-xl border border-blue-100 shadow-lg p-6 space-y-8 max-w-4xl mx-auto">
                             <h2 class="text-2xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 ml-2">
-                                EI and Career Success of CPAs
+                                Biographical and Employment Data
                             </h2>
-
                             <p class="text-gray-600 px-4 bg-blue-50 p-4 rounded-lg">
-                                Fully complete all questions to help shape the CPA profession and get a chance to win a $100 Visa gift card, your EI score, and an enhanced appreciation of work-related situations impacted by EI.
+                                Please provide the following information to help us understand the
+                                demographic makeup and employment profile of CPAs. This information is
+                                essential to the study, and we appreciate your responses.
                             </p>
 
                             <!-- Personal Information Section -->
@@ -675,12 +676,13 @@
                                             <div class="flex-shrink-0 bg-blue-600 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">
                                                 {{ $index + 1 }}
                                             </div>
+{{--                                            <span class="text-xs text-gray-500">(Q{{ $question['settings']['question_number'] ?? 'N/A' }})</span>--}}
                                             <!-- Question Text -->
                                             <p class="text-base font-medium text-gray-900">
                                                 {{ $question['question_text'] }}
                                             </p>
-                                        </div>
 
+                                        </div>
                                         <!-- Desktop view (horizontal) -->
                                         <div class="hidden md:grid md:grid-cols-5 gap-2 ml-11">
                                             @foreach($question['options'] as $option)
@@ -690,7 +692,7 @@
                                                            value="{{ $option['id'] }}"
                                                            class="h-5 w-5 text-blue-600 focus:ring-blue-500">
                                                     <span class="mt-2 text-sm text-gray-700 text-center">
-                                    {{ $option['option_text'] }}
+                                                        {{ $option['option_text'] }}
                                 </span>
                                                 </label>
                                             @endforeach
@@ -714,9 +716,9 @@
                                     <!-- Add section break every 7 questions -->
                                     @if(($index + 1) % 7 == 0 && ($index + 1) < count($eiQuestions))
                                         <div class="border-t border-gray-200 my-8 pt-2 text-center">
-                        <span class="inline-block px-4 py-1 bg-blue-50 rounded-full text-sm text-blue-600 font-medium">
-                            Section {{ floor(($index + 1) / 7) + 1 }}
-                        </span>
+                                        <span class="inline-block px-4 py-1 bg-blue-50 rounded-full text-sm text-blue-600 font-medium">
+                                            Section {{ floor(($index + 1) / 7) + 1 }}
+                                        </span>
                                         </div>
                                     @endif
                                 @endif

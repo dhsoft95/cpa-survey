@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: cpa-survey-app
+        restart: unless-stopped
+        working_dir: /var/www/html
+        volumes:
+            - ./:/var/www/html
+            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        ports:
+            - "8000:80"
+        networks:
+            - laravel-network
+
+    db:
+        image: mysql:8.0
+        container_name: cpa-survey-db
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE:-cpa_survey}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-root}
+            MYSQL_PASSWORD: ${DB_PASSWORD:-password}
+            MYSQL_USER: ${DB_USERNAME:-cpa_survey}
+            SERVICE_TAGS: dev
+            SERVICE_NAME: mysql
+        volumes:
+            - dbdata:/var/lib/mysql
+            - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+        networks:
+            - laravel-network
+        ports:
+            - "3306:3306"
+
+networks:
+    laravel-network:
+        driver: bridge
+
+volumes:
+    dbdata:
+        driver: local

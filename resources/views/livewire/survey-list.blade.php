@@ -100,7 +100,11 @@
                     This is a comprehensive PhD research study, by a Canadian CPA, through Andrews University. It investigates the influence of EI, moderated by variables such as age etc. Career success is measured both subjectively and objectively. <br> It is important that you complete all the questions as your responses will impact the validity of the findings.
                 </p>
                 <p class="text-gray-600 text-sm mt-2">
-                    Participation is voluntary and all data collected will be used for research purposes only. For questions about this study, please contact <a href="mailto:jenipher@andrews.edu" class="text-blue-600 hover:underline">jenipher@andrews.edu</a>
+                    Participation is voluntary and all data collected will be used for research purposes only.
+                </p>
+                <h2 class="font-bold text-gray-800 mb-2">Question</h2>
+                <p class="text-gray-600 text-sm leading-relaxed">
+                    For questions about this study, please contact <a href="mailto:jenipher@andrews.edu" class="text-blue-600 hover:underline">jenipher@andrews.edu</a>
                 </p>
             </div>
         </div>

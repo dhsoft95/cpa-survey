@@ -75,7 +75,6 @@ class SurveyForm extends Component
     public function mount(Survey $survey)
     {
         $this->survey = $survey;
-
         Log::info('Mounting SurveyForm component');
 
         $allQuestions = $survey->questions()->with(['questionType', 'options'])->orderBy('order')->get();
@@ -86,24 +85,26 @@ class SurveyForm extends Component
                 continue;
             }
 
-            // Get question settings and category if available
             $settings = $question->settings ?? [];
             $category = $settings['category'] ?? null;
 
-            // Categorize questions appropriately
-            if ($category === 'career_satisfaction' || str_contains(strtolower($question->question_text), 'satisfied')) {
-                $this->careerSatisfactionQuestions[] = $question->toArray();
-                Log::info('Added career satisfaction question: ' . $question->question_text);
-            }
-            elseif (isset($settings['question_number']) || in_array($category, array_keys($this->eiCategories))) {
+            // 1. Categorize EI questions FIRST using their category
+            if (in_array($category, array_keys($this->eiCategories))) {
                 $this->eiQuestions[] = $question->toArray();
                 Log::info('Added EI question: ' . $question->question_text);
             }
+            // 2. Career satisfaction questions (text or category)
+            elseif ($category === 'career_satisfaction' || str_contains(strtolower($question->question_text), 'satisfied')) {
+                $this->careerSatisfactionQuestions[] = $question->toArray();
+                Log::info('Added career satisfaction question: ' . $question->question_text);
+            }
+            // 3. All others are demographics
             else {
                 $this->demographicQuestions[] = $question->toArray();
                 Log::info('Added demographic question: ' . $question->question_text);
             }
 
+            // Initialize answers...
             if ($question->questionType && in_array($question->questionType->slug, ['multiple-choice', 'dropdown', 'likert-scale'])) {
                 $this->answers[$question->id] = ['selected_option' => null];
             } else {
