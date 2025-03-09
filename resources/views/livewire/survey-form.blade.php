@@ -195,7 +195,7 @@
 {{--                            </h2>--}}
                             <div class="mt-8 space-y-4">
                                 <h3 class="text-1xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 mb-6">
-                                    Are you a member of CPA Canada?
+                                    Are you a CPA?
                                 </h3>
                                 <div class="flex flex-wrap gap-4">
                                     <label class="flex items-center space-x-2 cursor-pointer">
@@ -717,16 +717,16 @@
 
                             <!-- Career Challenges Question (after Q70) -->
                             <div class="border-t border-gray-200 my-8 pt-2 text-center">
-            <span class="inline-block px-4 py-1 bg-blue-50 rounded-full text-sm text-blue-600 font-medium">
-                Final Section
-            </span>
+                            <span class="inline-block px-4 py-1 bg-blue-50 rounded-full text-sm text-blue-600 font-medium">
+                                Final Section
+                            </span>
                             </div>
 
                             <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm hover:border-blue-200 transition-colors duration-200">
                                 <div class="flex items-start mb-4">
-                                    <div class="flex-shrink-0 bg-blue-600 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">
-                                        71
-                                    </div>
+{{--                                    <div class="flex-shrink-0 bg-blue-600 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">--}}
+{{--                                        71--}}
+{{--                                    </div>--}}
                                     <p class="text-base font-medium text-gray-900">
                                         Please use the space below to capture your thoughts about the challenges and opportunities you see in your career as a professional accountant.
                                     </p>

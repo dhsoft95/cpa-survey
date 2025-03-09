@@ -7,7 +7,6 @@
         </div>
         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Career Challenges & Opportunities</h3>
     </div>
-
     @if(isset($getRecord()->demographic_data['career_challenges']) && !empty($getRecord()->demographic_data['career_challenges']))
         <div class="relative">
             <div class="absolute top-0 bottom-0 left-0 w-1 bg-blue-100 dark:bg-blue-900/40 rounded-full"></div>
