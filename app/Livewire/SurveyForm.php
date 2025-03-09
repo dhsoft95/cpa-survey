@@ -325,7 +325,7 @@ class SurveyForm extends Component
                 if (in_array($questionNumber, $questionNumbers)) {
                     $this->eiScores[$category]['raw'] += $score;
                     $this->eiScores[$category]['questions_answered']++;
-                    $this->eiScores[$category]['max'] += 5; // Assuming max score is 5 per question
+                    $this->eiScores[$category]['max'] += 5;
 
                     Log::debug("Added score {$score} to category {$category} from question #{$questionNumber}");
                     break;

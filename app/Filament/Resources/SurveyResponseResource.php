@@ -60,9 +60,31 @@ class SurveyResponseResource extends Resource
                     ->disabled()
                     ->columnSpanFull(),
 
-                Forms\Components\KeyValue::make('demographic_data')
-                    ->columnSpanFull()
-                    ->disabled(),
+                Forms\Components\Section::make('Response Data')
+                    ->schema([
+                        // Display EI scores in a formatted way
+                        Forms\Components\View::make('filament.survey-response.ei-scores')
+                            ->label('Emotional Intelligence Scores')
+                            ->visible(fn ($record) => isset($record->demographic_data['ei_scores']))
+                            ->extraAttributes(['class' => 'border p-4 rounded bg-gray-50']),
+
+                        // Show career challenges
+                        Forms\Components\View::make('filament.survey-response.career-challenges')
+                            ->label('Career Challenges & Opportunities')
+                            ->visible(fn ($record) => isset($record->demographic_data['career_challenges'])),
+                        // Show other demographic data
+                        Forms\Components\KeyValue::make('demographic_data')
+                            ->label('Demographic Data')
+                            ->afterStateHydrated(function ($component, $state) {
+                                // Filter out complex fields
+                                $filtered = collect($state)
+                                    ->except(['ei_scores', 'total_ei_score', 'career_challenges'])
+                                    ->toArray();
+                                $component->state($filtered);
+                            })
+                            ->disabled(),
+                    ])
+                    ->columnSpanFull(),
             ]);
     }
 

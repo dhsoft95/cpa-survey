@@ -184,14 +184,17 @@
                     <!-- Step 1: Consent Form (unchanged) -->
                     @if($currentStep == 1)
                         <div class="mb-8 p-6 bg-white rounded-xl border border-blue-100 shadow-sm">
-                            <h2 class="text-2xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 mb-6">
-                                Are you a CPA?
-                            </h2>
-                            <p class="text-2xl">
-                                This survey is for members of CPA canada
+
+                            <p class="text-1xl">
+                                This survey is for individuals who hold a Canadian Chartered Professional Accountant (CPA) Designation
                             </p>
+                            <p class="text-1xl font-bold text-gray-90">The submission of the questionnaire serves as a form of implied consent. It also confirms that you read and understood the consent information
+                                </p>
+{{--                            <h2 class="text-1xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 mb-6">--}}
+{{--                                Are you a CPA?--}}
+{{--                            </h2>--}}
                             <div class="mt-8 space-y-4">
-                                <h3 class="text-lg font-medium text-gray-900">
+                                <h3 class="text-1xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 mb-6">
                                     Are you a member of CPA Canada?
                                 </h3>
                                 <div class="flex flex-wrap gap-4">
@@ -613,22 +616,13 @@
                         </div>
 
                         <!-- Step 5: EI Questions (now its own step) -->
+                        <!-- Step 5: EI Questions (now its own step) -->
                     @elseif($currentStep == 5)
                         <div class="space-y-6 mt-4">
                             <!-- EI Questions Section -->
                             <div class="bg-blue-50 rounded-xl p-6 border border-blue-100">
-{{--                                <p class="text-gray-700 leading-relaxed">--}}
-{{--                                    The questions below are based on the GENOS Emotional Intelligence framework. They assess how you navigate through work-related emotionally intelligent situations.--}}
-{{--                                </p>--}}
-{{--                                <p class="text-gray-600 mt-2 italic">--}}
-{{--                                    Although you are free to skip any question, the accuracy of your EI score is dependent on the questions answered.--}}
-{{--                                </p>--}}
-
                                 <div class="mt-6">
                                     <h2 class="text-xl font-bold text-gray-800 mb-3">EI and Career Success of CPAs</h2>
-{{--                                    <p class="text-gray-700 mb-4">--}}
-{{--                                        Fully complete all questions to help shape the CPA profession and get a chance to win a $100 Visa gift card, your EI score, and an enhanced appreciation of work-related situations impacted by EI.--}}
-{{--                                    </p>--}}
                                     <p class="text-gray-700 mb-4">
                                         This section captures your EI scores. The scores are assessed using the Genos Emotional Intelligence Instrument which measures EI as exhibited in work-related situations. The section and questions are replicated from the Genos EI self-assessment Instrument, Copyright © Genos 2014.
                                     </p>
@@ -659,7 +653,8 @@
                                     </p>
                                     <p class="text-gray-700">
                                         There is no time limit; however it should take between 15-25 minutes to complete.
-                                    </p> <p class="text-gray-700">
+                                    </p>
+                                    <p class="text-gray-700">
                                         Please note that, although you are free to skip any question, the validity of the research findings and the accuracy of your EI score depends on the completeness of this survey.
                                     </p>
                                 </div>
@@ -674,12 +669,10 @@
                                             <div class="flex-shrink-0 bg-blue-600 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">
                                                 {{ $index + 1 }}
                                             </div>
-{{--                                            <span class="text-xs text-gray-500">(Q{{ $question['settings']['question_number'] ?? 'N/A' }})</span>--}}
                                             <!-- Question Text -->
                                             <p class="text-base font-medium text-gray-900">
                                                 {{ $question['question_text'] }}
                                             </p>
-
                                         </div>
                                         <!-- Desktop view (horizontal) -->
                                         <div class="hidden md:grid md:grid-cols-5 gap-2 ml-11">
@@ -690,7 +683,7 @@
                                                            value="{{ $option['id'] }}"
                                                            class="h-5 w-5 text-blue-600 focus:ring-blue-500">
                                                     <span class="mt-2 text-sm text-gray-700 text-center">
-                                                        {{ $option['option_text'] }}
+                                    {{ $option['option_text'] }}
                                 </span>
                                                 </label>
                                             @endforeach
@@ -714,13 +707,44 @@
                                     <!-- Add section break every 7 questions -->
                                     @if(($index + 1) % 7 == 0 && ($index + 1) < count($eiQuestions))
                                         <div class="border-t border-gray-200 my-8 pt-2 text-center">
-                                        <span class="inline-block px-4 py-1 bg-blue-50 rounded-full text-sm text-blue-600 font-medium">
-                                            Section {{ floor(($index + 1) / 7) + 1 }}
-                                        </span>
+                        <span class="inline-block px-4 py-1 bg-blue-50 rounded-full text-sm text-blue-600 font-medium">
+                            Section {{ floor(($index + 1) / 7) + 1 }}
+                        </span>
                                         </div>
                                     @endif
                                 @endif
                             @endforeach
+
+                            <!-- Career Challenges Question (after Q70) -->
+                            <div class="border-t border-gray-200 my-8 pt-2 text-center">
+            <span class="inline-block px-4 py-1 bg-blue-50 rounded-full text-sm text-blue-600 font-medium">
+                Final Section
+            </span>
+                            </div>
+
+                            <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm hover:border-blue-200 transition-colors duration-200">
+                                <div class="flex items-start mb-4">
+                                    <div class="flex-shrink-0 bg-blue-600 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">
+                                        71
+                                    </div>
+                                    <p class="text-base font-medium text-gray-900">
+                                        Please use the space below to capture your thoughts about the challenges and opportunities you see in your career as a professional accountant.
+                                    </p>
+                                </div>
+                                <div class="ml-11">
+                <textarea wire:model="careerChallengesText" rows="6"
+                          class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 shadow-sm transition-all duration-300 placeholder-gray-400 hover:border-blue-300"
+                          placeholder="Share your thoughts here..."></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Consent Confirmation -->
+                            <div class="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                                <p class="text-gray-700 text-center">
+                                    Thank you for your time. The submission of the questionnaire serves as a form of implied consent.
+                                    It also confirms that you read and understood the consent information.
+                                </p>
+                            </div>
                         </div>
                     @endif
 

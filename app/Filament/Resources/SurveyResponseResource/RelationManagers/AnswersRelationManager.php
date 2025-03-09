@@ -26,7 +26,6 @@ class AnswersRelationManager extends RelationManager
 
                 Forms\Components\Textarea::make('answer_text')
                     ->columnSpanFull(),
-
                 Forms\Components\KeyValue::make('selected_options_display')
                     ->label('Selected Options')
                     ->columnSpanFull()
@@ -38,7 +37,6 @@ class AnswersRelationManager extends RelationManager
                         if (empty($record->selected_options)) {
                             return [];
                         }
-
                         $options = [];
                         foreach ($record->selected_options as $optionId) {
                             $option = QuestionOption::find($optionId);

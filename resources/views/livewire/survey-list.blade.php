@@ -7,10 +7,6 @@
             </svg>
         </div>
         <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">EI CPA Career Success Survey</h1>
-{{--        <p class="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">--}}
-{{--            Please share your valuable professional input and help us gather data needed to help solidify our understanding of exactly how emotional intelligence (EI) impacts career success of Chartered Professional Accountants (CPAs).--}}
-{{--            <span class="block mt-2 font-medium">Complete the survey for a chance to win rewards and receive insights on EI's impact!</span>--}}
-{{--        </p>--}}
     </div>
     @if($surveys->isEmpty())
         <!-- Empty State with Updated Text -->
@@ -50,7 +46,7 @@
                         <h2 class="text-xl font-bold text-gray-900 tracking-tight mb-3 group-hover:text-blue-600 transition-colors">{{ $survey->title }}</h2>
 
                         <p class="text-gray-600 line-clamp-3 mb-6 leading-relaxed">
-                            {{ $survey->description }}
+                            {!! Str::markdown($survey->description) !!}
                         </p>
 
                         <!-- Card Footer -->
@@ -79,6 +75,7 @@
                             </div>
                         </div>
 
+
                         <!-- Action Button -->
                         <a href="{{ route('surveys.take', $survey) }}"
                            class="mt-6 flex w-full items-center justify-center px-5 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl font-semibold text-white tracking-wide hover:from-blue-600 hover:to-indigo-700 transform transition-all duration-200 shadow-md hover:shadow-lg">
@@ -97,12 +94,12 @@
             <div class="bg-blue-50 p-4 rounded-lg">
                 <h2 class="font-bold text-gray-800 mb-2">About this Research</h2>
                 <p class="text-gray-600 text-sm leading-relaxed">
-                    This is a comprehensive PhD research study, by a Canadian CPA, through Andrews University. It investigates the influence of EI, moderated by variables such as age etc. Career success is measured both subjectively and objectively. <br> It is important that you complete all the questions as your responses will impact the validity of the findings.
+                    This is a comprehensive PhD research study, by a Canadian CPA, through Andrews University. It investigates the influence of EI, moderated by variables such as age etc, on the career success of CPAs. Career success is measured both subjectively and objectively. <br> It is important that you complete all the questions as your responses will impact the validity of the findings.
                 </p>
                 <p class="text-gray-600 text-sm mt-2">
                     Participation is voluntary and all data collected will be used for research purposes only.
                 </p>
-                <h2 class="font-bold text-gray-800 mb-2">Question</h2>
+                <h2 class="font-bold text-gray-800 mb-2">Questions</h2>
                 <p class="text-gray-600 text-sm leading-relaxed">
                     For questions about this study, please contact <a href="mailto:jenipher@andrews.edu" class="text-blue-600 hover:underline">jenipher@andrews.edu</a>
                 </p>
