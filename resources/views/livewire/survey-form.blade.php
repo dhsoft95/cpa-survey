@@ -421,7 +421,7 @@
                                 <!-- Years Since Designation -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
-                                        Please indicate the years since you obtained your designation (including legacy designations). *
+                                        Please state the year you obtained your first accounting designation (including legacy designation).
                                     </label>
                                     <input type="number" wire:model="demographicData.years_designation"
                                            class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 shadow-sm transition-all duration-300 placeholder-gray-400 hover:border-blue-300"
@@ -436,7 +436,7 @@
                                 <!-- Industry -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
-                                        Please indicate the type of industry that best fits where you work? If you are retired or unemployed, indicate the industry at your retirement or your last employer? *
+                                        Please indicate the type of industry that best fits where you work. If you are retired or unemployed, indicate the industry at your retirement or your last employer.
                                     </label>
                                     <select wire:model="demographicData.industry"
                                             class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 shadow-sm transition-all duration-300 placeholder-gray-400 hover:border-blue-300 bg-select-chevron appearance-none">
@@ -454,7 +454,7 @@
                                 <!-- Current Position -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
-                                        Please indicate the option below that best describes your current position or your most recent position before retirement. *
+                                        Please indicate the option below that best describes your current or most recent position.
                                     </label>
                                     <select wire:model="demographicData.current_position"
                                             class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 shadow-sm transition-all duration-300 placeholder-gray-400 hover:border-blue-300 bg-select-chevron appearance-none">
@@ -471,7 +471,8 @@
                                 <!-- Number of Staff -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
-                                        Please indicate the number of staff (including yourself) in the organization you work for. If you are retired or unemployed, state position on retirement or at your last employer. *
+                                        Please indicate the number of staff (including yourself) in the organization you work for. If you are retired or unemployed, state number at your last employer.
+
                                     </label>
                                     <input type="number" wire:model="demographicData.number_staff"
                                            class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 shadow-sm transition-all duration-300 placeholder-gray-400 hover:border-blue-300"
@@ -515,7 +516,7 @@
                                 <!-- Yearly Compensation -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
-                                        What is your yearly compensation (before taxes, deductions and benefits). If you do not get compensation, please indicate zero. *
+                                        What is your yearly compensation (before taxes, deductions and benefits). If you are retired or unemployed, give the compensation at your last position.
                                     </label>
                                     <input type="number" wire:model="demographicData.yearly_compensation"
                                            class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 shadow-sm transition-all duration-300 placeholder-gray-400 hover:border-blue-300"
@@ -525,7 +526,7 @@
                                 <!-- Job Title -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
-                                        What is your current job title or if you are retired or unemployed, state your position before retirement or unemployment? *
+                                        What is your current job title or if you are retired or unemployed, state your position before retirement or unemployment?
                                     </label>
                                     <select wire:model="demographicData.job_title"
                                             class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 shadow-sm transition-all duration-300 placeholder-gray-400 hover:border-blue-300 bg-select-chevron appearance-none">
