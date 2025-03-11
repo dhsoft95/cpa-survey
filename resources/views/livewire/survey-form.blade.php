@@ -282,7 +282,7 @@
                         <!-- Step 3: Demographics section (moved from step 2) -->
                     @elseif($currentStep == 3)
                         <!-- Demographics Section - now its own step -->
-                        <div class="bg-white rounded-xl border border-blue-100 shadow-lg p-6 space-y-8 max-w-4xl mx-auto">
+                        <div id="step-3-container" class="bg-white rounded-xl border border-blue-100 shadow-lg p-6 space-y-8 max-w-4xl mx-auto" x-init="window.scrollTo({top: 0, behavior: 'smooth'})">
                             <h2 class="text-2xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 ml-2">
                                 Biographical and Employment Data
                             </h2>
@@ -352,11 +352,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Professional Background Section -->
-{{--                                <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-lg shadow-sm mt-6">--}}
-{{--                                    <h3 class="font-semibold text-white text-lg">Professional Background</h3>--}}
-{{--                                </div>--}}
-
                                 <!-- Legacy Designation -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
@@ -417,9 +412,7 @@
                                            class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 shadow-sm transition-all duration-300 placeholder-gray-400 hover:border-blue-300"
                                            placeholder="Use numbers only">
                                 </div>
-
                                 <!-- Employment Information Section -->
-
                                 <!-- Industry -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
@@ -494,12 +487,6 @@
                                         </label>
                                     </div>
                                 </div>
-
-                                <!-- Career Success Indicators Section -->
-{{--                                <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-lg shadow-sm mt-6">--}}
-{{--                                    <h3 class="font-semibold text-white text-lg">Career Success Indicators</h3>--}}
-{{--                                </div>--}}
-
                                 <!-- Yearly Compensation -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
@@ -769,11 +756,11 @@
     @endif
 
     <script>
-        window.addEventListener('scrollToTop', event => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+
+        Livewire.on('scroll-to-top', () => {
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 100); // 100ms delay
         });
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {

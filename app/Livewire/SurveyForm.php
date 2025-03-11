@@ -119,7 +119,7 @@ class SurveyForm extends Component
 
     public function nextStep()
     {
-        // Step 1: CPA member check (was Step 2)
+        // Step 1: CPA member check
         if ($this->currentStep == 1) {
             $this->validate([
                 'demographicData.is_cpa_member' => 'required',
@@ -136,7 +136,7 @@ class SurveyForm extends Component
             // For CPA members, proceed to consent form
             $this->currentStep = 2;
         }
-        // Step 2: Consent form (was Step 1)
+        // Step 2: Consent form
         elseif ($this->currentStep == 2) {
             $this->validate([
                 'consentAgreed' => 'accepted',
@@ -144,6 +144,9 @@ class SurveyForm extends Component
                 'consentAgreed.accepted' => 'You must agree to the consent form to proceed.'
             ]);
             $this->currentStep = 3;
+
+            // Emit an event when navigating to Step 3
+            $this->dispatch('scroll-to-top');
         }
         // Step 3: Demographics
         elseif ($this->currentStep == 3) {
@@ -162,6 +165,8 @@ class SurveyForm extends Component
             // No validation required - respondents can skip questions
             $this->submitSurvey(true);
         }
+
+        // Scroll to top for all steps (optional)
         $this->js('window.scrollTo({ top: 0, behavior: "smooth" })');
     }
 
@@ -301,7 +306,7 @@ class SurveyForm extends Component
      *
      * @param array $scoreData
      */
-    private function calculateScores($scoreData)
+    private function calculateScores($scoreData): void
     {
         // Initialize category scores and counts
         $this->eiScores = [];
