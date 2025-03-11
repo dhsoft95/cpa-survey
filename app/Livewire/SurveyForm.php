@@ -25,7 +25,7 @@ class SurveyForm extends Component
         'legacy_designation' => [],
         'years_designation' => null,
         'province' => null,
-        'provincial_bodies' => [], // New field for all provincial bodies
+        'provincial_bodies' => [],
         'industry' => null,
         'provincial_cpa_body' => null,
         'current_position' => null,
@@ -162,16 +162,20 @@ class SurveyForm extends Component
             // No validation required - respondents can skip questions
             $this->submitSurvey(true);
         }
-        $this->dispatch('scrollToTop');
+        $this->js('window.scrollTo({ top: 0, behavior: "smooth" })');
     }
 
     public function previousStep()
     {
         $this->currentStep = max(1, $this->currentStep - 1);
-        $this->dispatch('scrollToTop');
+        $this->js('window.scrollTo({ top: 0, behavior: "smooth" })');
+    }
+    public function scrollTop(): void
+    {
+        $this->js('window.scrollTo({ top: 0, behavior: "smooth" })');
     }
 
-    public function submitSurvey($includeAllQuestions = true)
+    public function submitSurvey($includeAllQuestions = true): void
     {
         $this->isSubmitting = true;
 

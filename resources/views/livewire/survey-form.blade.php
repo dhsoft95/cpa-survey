@@ -190,9 +190,6 @@
                             </p>
                             <p class="text-1xl font-bold text-gray-90">The submission of the questionnaire serves as a form of implied consent. It also confirms that you read and understood the consent information
                                 </p>
-{{--                            <h2 class="text-1xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 mb-6">--}}
-{{--                                Are you a CPA?--}}
-{{--                            </h2>--}}
                             <div class="mt-8 space-y-4">
                                 <h3 class="text-1xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 mb-6">
                                     Are you a CPA?
@@ -285,7 +282,6 @@
                         <!-- Step 3: Demographics section (moved from step 2) -->
                     @elseif($currentStep == 3)
                         <!-- Demographics Section - now its own step -->
-                        <!-- Demographics Section -->
                         <div class="bg-white rounded-xl border border-blue-100 shadow-lg p-6 space-y-8 max-w-4xl mx-auto">
                             <h2 class="text-2xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 ml-2">
                                 Biographical and Employment Data
@@ -295,12 +291,6 @@
                                 demographic makeup and employment profile of CPAs. This information is
                                 essential to the study, and we appreciate your responses.
                             </p>
-
-                            <!-- Personal Information Section -->
-{{--                            <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-lg shadow-sm">--}}
-{{--                                <h3 class="font-semibold text-white text-lg">Personal Information</h3>--}}
-{{--                            </div>--}}
-
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-2">
                                 <!-- Birth Year -->
                                 <div class="md:col-span-2 space-y-2">
@@ -429,9 +419,6 @@
                                 </div>
 
                                 <!-- Employment Information Section -->
-{{--                                <div class="md:col-span-2 bg-gradient-to-r from-blue-600 to-blue-700 p-4 rounded-lg shadow-sm mt-6">--}}
-{{--                                    <h3 class="font-semibold text-white text-lg">Employment Information</h3>--}}
-{{--                                </div>--}}
 
                                 <!-- Industry -->
                                 <div class="md:col-span-2 space-y-2">
@@ -816,14 +803,6 @@
         .hover\:scale-105:hover {
             transform: scale(1.05);
         }
-        /* Custom dropdown indicator */
-        /*.bg-chevron {*/
-        /*    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");*/
-        /*    background-position: right 0.5rem center;*/
-        /*    background-repeat: no-repeat;*/
-        /*    background-size: 1.5em 1.5em;*/
-        /*}*/
-
         .bg-select-chevron {
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
