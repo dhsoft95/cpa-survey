@@ -186,8 +186,8 @@
                             <p class="text-1xl">
                                 This survey is for individuals who hold a Canadian Chartered Professional Accountant (CPA) Designation
                             </p>
-                            <p class="text-1xl font-bold text-gray-90">The submission of the questionnaire serves as a form of implied consent. It also confirms that you read and understood the consent information
-                                </p>
+{{--                            <p class="text-1xl font-bold text-gray-90">The submission of the questionnaire serves as a form of implied consent. It also confirms that you read and understood the consent information--}}
+{{--                                </p>--}}
                             <div class="mt-8 space-y-4">
                                 <h3 class="text-1xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 mb-6">
                                     Are you a CPA?
