@@ -45,7 +45,13 @@
             @endif
         </h1>
 
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Congratulations to our EI CPA Career Success Survey prize winners! Thank you to all participants for contributing to this important research.</p>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+            Congratulations to our current EI CPA Career Success Survey prize winners! If you have not yet done so, please complete the survey for your chance to win!
+            Thank you for you for contributing to this important research.
+            <br>
+            <b style="color: #1a202c"> Next Prize Draw is on May 20, 2025</b>
+
+        </p>
     </div>
 
     <!-- Winners Section -->
@@ -74,7 +80,7 @@
                     <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Draw Date</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Winner Code</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Survey</th>
+{{--                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Survey</th>--}}
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Prize</th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Action</th>
                     </tr>
@@ -101,45 +107,11 @@
                                 </div>
                                 <div class="mt-1">
                                     <div class="flex items-center text-sm text-indigo-600">
-                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                                        </svg>
-                                        <span class="font-medium">Score: {{ $winner->total_score }}</span>
+{{--                                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">--}}
+{{--                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>--}}
+{{--                                        </svg>--}}
+{{--                                        <span class="font-medium">Score: {{ $winner->total_score }}</span>--}}
                                     </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-gray-900">
-                                <div class="font-medium text-gray-900 max-w-xs">
-                                    @if(str_word_count($winner->survey->title) > 10)
-                                        <div>
-                <span id="short-title-{{ $winner->id }}" class="block">
-                    {{ Str::words($winner->survey->title, 10, '...') }}
-                    <button onclick="toggleTitle('{{ $winner->id }}')" class="ml-1 text-blue-600 text-xs hover:text-blue-800 hover:underline inline-flex items-center">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                        expand
-                    </button>
-                </span>
-                                            <span id="full-title-{{ $winner->id }}" class="hidden">
-                    {{ $winner->survey->title }}
-                    <button onclick="toggleTitle('{{ $winner->id }}')" class="ml-1 text-blue-600 text-xs hover:text-blue-800 hover:underline inline-flex items-center">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
-                        </svg>
-                        collapse
-                    </button>
-                </span>
-                                        </div>
-                                    @else
-                                        {{ $winner->survey->title }}
-                                    @endif
-                                </div>
-                                <div class="text-xs text-gray-500 mt-1 flex items-center">
-                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                    </svg>
-                                    Research Study
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -188,7 +160,7 @@
                         <a style="color: #0000cc" href="mailto:jenipher@andrews.edu">jenipher@andrews.edu</a> to claim your prize.</li>
                     <li>Prize draws are conducted monthly during the research period</li>
                 </ul>
-                <p class="mt-4">For privacy reasons, only winner codes are displayed publicly. Winners will be contacted directly with instructions on how to claim their prize.</p>
+{{--                <p class="mt-4">For privacy reasons, only winner codes are displayed publicly. Winners will be contacted directly with instructions on how to claim their prize.</p>--}}
             </div>
         </div>
     </div>
