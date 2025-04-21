@@ -69,19 +69,19 @@
         @else
             <!-- Winners List Table with Trophy Animation -->
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
+                <table class="min-w-full divide-y divide-gray-200 shadow-sm rounded-lg overflow-hidden">
+                    <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
                     <tr>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Draw Date</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Winner Code</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Survey</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prize</th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Draw Date</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Winner Code</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Survey</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Prize</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Action</th>
                     </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($winners as $index => $winner)
-                        <tr class="hover:bg-gray-50 winner-row">
+                        <tr class="hover:bg-blue-50 transition duration-150 ease-in-out winner-row">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex flex-col">
                                     <span class="text-sm font-medium text-gray-900">{{ $winner->updated_at->format('M d, Y') }}</span>
@@ -90,12 +90,12 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div class="winner-code text-lg font-semibold">
+                                    <div class="winner-code text-lg font-semibold text-indigo-700">
                                         {{ $winner->completion_code }}
                                         @if($index === 0)
                                             <span class="ml-2 px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                Latest
-                            </span>
+                                    Latest
+                                </span>
                                         @endif
                                     </div>
                                 </div>
@@ -104,23 +104,43 @@
                                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                                         </svg>
-                                        Score: {{ $winner->total_score }}
+                                        <span class="font-medium">Score: {{ $winner->total_score }}</span>
                                     </div>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                <div class="text-sm font-medium text-gray-900">
+                            <td class="px-6 py-4 text-sm text-gray-900">
+                                <div class="font-medium text-gray-900 max-w-xs">
                                     @if(str_word_count($winner->survey->title) > 10)
-                                        {{ Str::words($winner->survey->title, 10, '...') }}
-                                        <span class="cursor-pointer text-blue-500 text-xs"
-                                              title="{{ $winner->survey->title }}">
-                                            (full title)
-                                        </span>
+                                        <div>
+                <span id="short-title-{{ $winner->id }}" class="block">
+                    {{ Str::words($winner->survey->title, 10, '...') }}
+                    <button onclick="toggleTitle('{{ $winner->id }}')" class="ml-1 text-blue-600 text-xs hover:text-blue-800 hover:underline inline-flex items-center">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                        expand
+                    </button>
+                </span>
+                                            <span id="full-title-{{ $winner->id }}" class="hidden">
+                    {{ $winner->survey->title }}
+                    <button onclick="toggleTitle('{{ $winner->id }}')" class="ml-1 text-blue-600 text-xs hover:text-blue-800 hover:underline inline-flex items-center">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path>
+                        </svg>
+                        collapse
+                    </button>
+                </span>
+                                        </div>
                                     @else
                                         {{ $winner->survey->title }}
                                     @endif
                                 </div>
-                                <div class="text-xs text-gray-500">Research Study</div>
+                                <div class="text-xs text-gray-500 mt-1 flex items-center">
+                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    Research Study
+                                </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
@@ -134,7 +154,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <a href="mailto:jenipher@andrews.edu?subject=CPA Survey Prize Claim - {{ $winner->completion_code }}&body=Hello,%0A%0AI am claiming my prize for the CPA Survey.%0A%0AMy completion code is: {{ $winner->completion_code }}%0A%0AThank you!"
-                                   class="claim-reward-button">
+                                   class="flex items-center px-3 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
                                     <svg class="w-5 h-5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
                                     </svg>
@@ -422,6 +442,23 @@
                     createConfetti();
                 }, 5000);
             });
+
+            function toggleTitle(id) {
+                const shortTitle = document.getElementById('short-title-' + id);
+                const fullTitle = document.getElementById('full-title-' + id);
+
+                if (shortTitle.classList.contains('hidden')) {
+                    shortTitle.classList.remove('hidden');
+                    shortTitle.classList.add('block');
+                    fullTitle.classList.remove('block');
+                    fullTitle.classList.add('hidden');
+                } else {
+                    shortTitle.classList.remove('block');
+                    shortTitle.classList.add('hidden');
+                    fullTitle.classList.remove('hidden');
+                    fullTitle.classList.add('block');
+                }
+            }
         </script>
     @endif
 </div>
