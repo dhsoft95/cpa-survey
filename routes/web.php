@@ -36,3 +36,7 @@ Route::get('/surveys/{survey}', [App\Http\Controllers\SurveyController::class, '
 Route::get('/surveys/{survey}/analytics', [App\Http\Controllers\SurveyAnalyticsController::class, 'index'])
     ->name('surveys.analytics')
     ->middleware(['auth']);
+
+// Survey response routes
+
+Route::get('/winners', [App\Http\Controllers\WinnersController::class, 'index'])->name('winners.index');
