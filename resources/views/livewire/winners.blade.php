@@ -47,7 +47,7 @@
 
         <p class="text-xl text-gray-600 max-w-3xl mx-auto">
             Congratulations to our current EI CPA Career Success Survey prize winners! If you have not yet done so, please complete the survey for your chance to win!
-            Thank you for you for contributing to this important research.
+            Thank you for contributing to this important research.
             <br>
             <b style="color: #1a202c"> Next Prize Draw is on May 20, 2025</b>
 
