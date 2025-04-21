@@ -109,7 +109,17 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                <div class="text-sm font-medium text-gray-900">{{ $winner->survey->title }}</div>
+                                <div class="text-sm font-medium text-gray-900">
+                                    @if(str_word_count($winner->survey->title) > 10)
+                                        {{ Str::words($winner->survey->title, 10, '...') }}
+                                        <span class="cursor-pointer text-blue-500 text-xs"
+                                              title="{{ $winner->survey->title }}">
+                                            (full title)
+                                        </span>
+                                    @else
+                                        {{ $winner->survey->title }}
+                                    @endif
+                                </div>
                                 <div class="text-xs text-gray-500">Research Study</div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
