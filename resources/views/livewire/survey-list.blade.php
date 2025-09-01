@@ -7,7 +7,6 @@
             </svg>
         </div>
         <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">EI CPA Career Success Survey</h1>
-
         <!-- Winners Link -->
         <div class="mt-4">
             <a href="{{ route('winners.index') }}" class="inline-flex items-center px-5 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 transition shadow-md hover:shadow-lg">
@@ -34,7 +33,7 @@
                 </button>
             </div>
         </div>
-    @else
+        @else
         <!-- Survey Cards Grid with Updated Wording -->
         <div class="grid grid-cols-1 md:grid-cols- lg:grid-cols-1 gap-8">
             @foreach($surveys as $survey)
@@ -69,7 +68,6 @@
                                     </svg>
                                     <span>{{ $survey->questions->count() }} questions</span>
                                 </div>
-
                                 <!-- Time Estimate -->
                                 <div class="flex items-center text-sm text-gray-500">
                                     <svg class="w-5 h-5 mr-1.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -84,8 +82,6 @@
                                 <span class="font-medium">Prize Draw</span>
                             </div>
                         </div>
-
-
                         <!-- Action Button -->
                         <a href="{{ route('surveys.take', $survey) }}"
                            class="mt-6 flex w-full items-center justify-center px-5 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-xl font-semibold text-white tracking-wide hover:from-blue-600 hover:to-indigo-700 transform transition-all duration-200 shadow-md hover:shadow-lg">
@@ -98,7 +94,6 @@
                 </div>
             @endforeach
         </div>
-
         <!-- Bottom Info Section (Research Disclosure) -->
         <div class="p-6 bg-white border-b border-gray-100">
             <div class="bg-blue-50 p-4 rounded-lg">

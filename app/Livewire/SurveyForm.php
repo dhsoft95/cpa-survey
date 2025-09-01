@@ -15,7 +15,7 @@ class SurveyForm extends Component
     public $totalSteps = 5; // Using 5 steps total
     public $demographicQuestions = [];
     public $careerSatisfactionQuestions = [];
-    public $eiQuestions = []; // Added for EI specific questions
+    public $eiQuestions = [];
     public $answers = [];
     public $demographicData = [
         'is_cpa_member' => null,
@@ -34,6 +34,7 @@ class SurveyForm extends Component
         'yearly_compensation' => null,
         'job_title' => null,
         'number_overseen' => null,
+        'accounting_experience_years' => null,
     ];
 
     public $completionCode = null;

@@ -14,7 +14,7 @@ services:
             - "8000:80"
         networks:
             - laravel-network
-
+            -
     db:
         image: mysql:8.0
         container_name: cpa-survey-db
@@ -33,7 +33,6 @@ services:
             - laravel-network
         ports:
             - "3306:3306"
-
 networks:
     laravel-network:
         driver: bridge
