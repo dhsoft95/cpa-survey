@@ -49,7 +49,7 @@
             Congratulations to our current EI CPA Career Success Survey prize winners! If you have not yet done so, please complete the survey for your chance to win!
             Thank you for contributing to this important research.
             <br>
-            <b style="color: #1a202c"> Next Prize Draw is on May 20, 2025</b>
+{{--            <b style="color: #1a202c"> Next Prize Draw is on May 20, 2025</b>--}}
 
         </p>
     </div>
@@ -159,6 +159,7 @@
                         If you have a winning number, email
                         <a style="color: #0000cc" href="mailto:jenipher@andrews.edu">jenipher@andrews.edu</a> to claim your prize.</li>
                     <li>Prize draws are conducted monthly during the research period</li>
+                    <li>You have 30 days from the draw date to claim </li>
                 </ul>
 {{--                <p class="mt-4">For privacy reasons, only winner codes are displayed publicly. Winners will be contacted directly with instructions on how to claim their prize.</p>--}}
             </div>

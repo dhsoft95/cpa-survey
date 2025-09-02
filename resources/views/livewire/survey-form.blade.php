@@ -1,6 +1,6 @@
 <div class="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     @if($completionCode)
-        <!-- Success Card with Scores -->
+        <!-- Success Card with Conditional Scores -->
         <div class="bg-white shadow-xl rounded-2xl p-8 text-center transform transition-all duration-300 hover:shadow-2xl">
             <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6 animate-bounce">
                 <svg class="h-12 w-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -9,8 +9,8 @@
             </div>
             <h2 class="mt-4 text-3xl font-bold text-gray-900 font-serif">Thank You!</h2>
             <p class="mt-2 text-lg text-gray-600">Your responses have been successfully recorded</p>
-{{--            <p class="text-sm text-gray-500 mt-2">The submission of the questionnaire serves as a form of implied consent.</p>--}}
-            @if($showScores)
+
+            @if($showScores && $demographicsCompleted)
                 <!-- Score Results Section -->
                 <div class="mt-8 p-6 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-xl border border-blue-100">
                     <h3 class="text-xl font-bold text-blue-700 mb-6">Your Emotional Intelligence Profile</h3>
@@ -98,10 +98,33 @@
 
                     <div class="text-sm text-gray-600 mt-4 bg-blue-50 p-4 rounded-lg">
                         <p class="font-medium mb-2">What does this mean?</p>
-                        <p> Although the Genos Instrument is for research purposes only, if you answered all questions, your scores provide insights about strengths and areas to develop. <strong>The maximum EI score is 350. </strong>At the end of the study, summary results will be shared to give you the opportunity to assess your score with those of your peers.</p>
+                        <p>Although the Genos Instrument is for research purposes only, if you answered all questions, your scores provide insights about strengths and areas to develop. <strong>The maximum EI score is 350.</strong> At the end of the study, summary results will be shared to give you the opportunity to assess your score with those of your peers.</p>
+                    </div>
+                </div>
+            @elseif(!$demographicsCompleted)
+                <!-- Message when demographic data is incomplete -->
+                <div class="mt-8 p-6 bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl border border-amber-200">
+                    <div class="flex items-center justify-center mb-4">
+                        <svg class="h-12 w-12 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold text-amber-700 mb-4 text-center">EI Scores Not Available</h3>
+                    <div class="text-gray-700 space-y-3">
+                        <p class="text-center">
+                            To receive your personalized Emotional Intelligence profile and scores, you need to complete the biographical and employment data section (Step 3).
+                        </p>
+                        <p class="text-center font-medium">
+                            Your survey responses have still been recorded and are valuable for our research.
+                        </p>
+                    </div>
+                    <div class="text-sm text-gray-600 mt-4 bg-amber-50 p-4 rounded-lg">
+                        <p class="font-medium mb-2">Why are demographic questions required for EI scores?</p>
+                        <p>The demographic information helps ensure the accuracy and validity of your EI assessment by providing essential context for score interpretation and comparison.</p>
                     </div>
                 </div>
             @endif
+
             <div class="mt-8 p-6 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
                 <p class="text-sm text-gray-600 mb-2 font-medium">Your completion code:</p>
                 <div class="flex items-center justify-center space-x-3">
@@ -145,7 +168,7 @@
         <!-- Survey Container -->
         <div class="bg-white shadow-xl rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
 
-            <!-- Progress Bar - Update to show 4 steps -->
+            <!-- Progress Bar -->
             <div class="p-6 bg-white border-b border-gray-100">
                 <div class="flex items-center space-x-4">
                     <div class="flex-1 h-3 bg-gray-200 rounded-full overflow-hidden">
@@ -158,7 +181,7 @@
                 </div>
             </div>
 
-            <!-- Loading Overlay - unchanged -->
+            <!-- Loading Overlay -->
             <div wire:loading.flex wire:target="nextStep, submitSurvey"
                  class="fixed inset-0 bg-black bg-opacity-50 z-50 items-center justify-center">
                 <div class="bg-white rounded-lg p-8 max-w-md mx-auto text-center shadow-2xl">
@@ -179,15 +202,12 @@
 
             <div class="p-8">
                 <form wire:submit.prevent="nextStep">
-                    <!-- Step 1: Consent Form (unchanged) -->
+                    <!-- Step 1: CPA Member Check -->
                     @if($currentStep == 1)
                         <div class="mb-8 p-6 bg-white rounded-xl border border-blue-100 shadow-sm">
-
                             <p class="text-1xl">
                                 This survey is open to accountants in Canada, including CPA students and those who are retired.
                             </p>
-{{--                            <p class="text-1xl font-bold text-gray-90">The submission of the questionnaire serves as a form of implied consent. It also confirms that you read and understood the consent information--}}
-{{--                                </p>--}}
                             <div class="mt-8 space-y-4">
                                 <h3 class="text-1xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 mb-6">
                                     Are you an accountant in Canada?
@@ -214,12 +234,13 @@
                                 @enderror
                             </div>
                         </div>
-                        <!-- Step 2: CPA Membership check ONLY -->
+
+                        <!-- Step 2: Consent Form -->
                     @elseif($currentStep == 2)
                         <div class="mb-8 p-6 bg-white rounded-xl border border-blue-100 shadow-sm">
                             <h2 class="text-2xl font-bold text-gray-900 font-serif mb-4">Your Consent</h2>
-                            <p class="text-2xl font-bold text-blue font-serif mb-4">We are required to get your permission to continue with the survey. Please take a few seconds
-to read the following and give us your consent</p>
+                            <p class="text-2xl font-bold text-blue font-serif mb-4">We are required to get your permission to continue with the survey. Please take a few seconds to read the following and give us your consent</p>
+
                             <div class="prose prose-blue max-w-none text-gray-700">
                                 <p class="mb-4">
                                     You are being invited to participate in a research study titled the Role of emotional Intelligence (EI) in the career success of professional accountants (CPAs). This study is being done by Jenipher Chitate (MBA, CPA, CMA) as part of a Doctorate Degree at Andrews University.
@@ -228,7 +249,8 @@ to read the following and give us your consent</p>
                                     Emotional intelligence is increasingly being recognized as an enabling capability required for success throughout a CPA's career. Despite this growing recognition, there are still gaps in knowledge as to how exactly EI impacts career success for the accountant. The purpose of the study is to provide evidence to help ascertain the role of EI in the career success of professional accountants.
                                 </p>
                                 <p class="mb-4">
-                                    If you agree to take part in this study, you will be asked to complete an online questionnaire. This questionnaire will ask about biographical data, your perceived level of career success, and how you navigate through emotionally intelligent work-related situations. The whole survey should take you approximately 20 minutes to complete. The bulk of the questions pertain to the assessment of EI. The EI specific questions use a comprehensive externally validated and accepted tool specifically designed to assess EI in practical work-place contexts.
+                                    If you agree to take part in this study, you will be asked to complete an online questionnaire. This questionnaire will ask about biographical data, your perceived level of career success, and how you navigate through emotionally intelligent work-related situations. The bulk of the questions pertain to the assessment of EI. The EI specific questions use a comprehensive externally validated and accepted tool specifically designed to assess EI in practical work-place contexts.
+                                    We recognize that your time is extremely important. As a token of appreciation, the questionnaire has been setup so that you can potentially benefit from your participation. We believe that reading and responding to the EI specific questions will give you a greater sense of the type of work-related situations that are impacted by EI. Upon submission of the questionnaire, you will get a confidential EI score and EI profile with valuable insights into EI work-related behaviours that might be impacting your career success. The whole survey should take no more than 20 minutes to complete. You are encouraged to keep your EI score. At the end of the study, the summary of results will be shared to give you the opportunity to assess your score with those of your peers. <strong>Although you are free to skip any question, the accuracy of the EI score is dependent on the questions answered.</strong>
                                 </p>
                                 <p class="mb-4">
                                     We recognize that your time is extremely important. As a token of appreciation, the questionnaire has been setup so that you can potentially benefit from your participation. We believe that reading and responding to the EI specific questions will give you a greater sense of the type of work-related situations that are impacted by EI. Upon submission of the questionnaire, you will get your individual EI scores. You are encouraged to keep your EI score. At the end of the study, the summary of results will be shared to give you the opportunity to assess your score with those of your peers. <strong>Although you are free to skip any question, the accuracy of the EI score is dependent on the questions answered.</strong>
@@ -277,16 +299,27 @@ to read the following and give us your consent</p>
                                 </div>
                             </div>
                         </div>
-                        <!-- Step 3: Demographics section (moved from step 2) -->
+
+                        <!-- Step 3: Demographics -->
                     @elseif($currentStep == 3)
-                        <!-- Demographics Section - now its own step -->
                         <div id="step-3-container" class="bg-white rounded-xl border border-blue-100 shadow-lg p-6 space-y-8 max-w-4xl mx-auto" x-init="window.scrollTo({top: 0, behavior: 'smooth'})">
                             <h2 class="text-2xl font-bold text-gray-900 font-serif border-l-4 border-blue-600 pl-4 ml-2">
                                 Biographical and Employment Data
                             </h2>
-                            <p class="text-gray-600 px-4 bg-blue-50 p-4 rounded-lg">
-                                Please provide the following information to help us understand the demographic makeup and employment profile of Accountants. This information is essential to the study, and we appreciate your responses
-                            </p>
+                            <div class="px-4 bg-amber-50 p-4 rounded-lg border border-amber-200">
+                                <div class="flex items-start space-x-3">
+                                    <svg class="h-6 w-6 text-amber-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="font-semibold text-amber-800 mb-1">Required for EI Score</p>
+                                        <p class="text-gray-700">
+                                            To receive your personalized Emotional Intelligence profile and scores, please complete the required fields below marked with (*). You can still participate in the research without completing these fields, but you won't receive your EI assessment results.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 px-2">
                                 <!-- Birth Year -->
                                 <div class="md:col-span-2 space-y-2">
@@ -351,9 +384,13 @@ to read the following and give us your consent</p>
                                 <!-- Legacy Designation -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
-                                        Please select all the qualifications that you have, including legacy designations.
+                                        Please select all the qualifications that you have, including legacy designations. *
                                     </label>
                                     <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                                        <label class="flex items-center space-x-3 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-400 bg-white hover:bg-blue-50 transition-all duration-200 cursor-pointer">
+                                            <input type="checkbox" wire:model="demographicData.legacy_designation" value="CPA" class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CPA</span>
+                                        </label>
                                         <label class="flex items-center space-x-3 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-400 bg-white hover:bg-blue-50 transition-all duration-200 cursor-pointer">
                                             <input type="checkbox" wire:model="demographicData.legacy_designation" value="CGA" class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
                                             <span class="text-sm text-gray-700">CGA</span>
@@ -367,20 +404,24 @@ to read the following and give us your consent</p>
                                             <span class="text-sm text-gray-700">CMA</span>
                                         </label>
                                         <label class="flex items-center space-x-3 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-400 bg-white hover:bg-blue-50 transition-all duration-200 cursor-pointer">
-                                            <input type="checkbox" wire:model="demographicData.legacy_designation" value="other" class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <input type="checkbox" wire:model="demographicData.legacy_designation" value="CPA Student" class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">CPA Student</span>
+                                        </label>
+                                        <label class="flex items-center space-x-3 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-400 bg-white hover:bg-blue-50 transition-all duration-200 cursor-pointer">
+                                            <input type="checkbox" wire:model="demographicData.legacy_designation" value="MBA" class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                                            <span class="text-sm text-gray-700">MBA</span>
+                                        </label>
+                                        <label class="flex items-center space-x-3 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-400 bg-white hover:bg-blue-50 transition-all duration-200 cursor-pointer">
+                                            <input type="checkbox" wire:model="demographicData.legacy_designation" value="Other" class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
                                             <span class="text-sm text-gray-700">Other</span>
                                         </label>
-{{--                                        <label class="flex items-center space-x-3 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-400 bg-white hover:bg-blue-50 transition-all duration-200 cursor-pointer">--}}
-{{--                                            <input type="checkbox" wire:model="demographicData.legacy_designation" value="none" class="h-5 w-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">--}}
-{{--                                            <span class="text-sm text-gray-700">None</span>--}}
-{{--                                        </label>--}}
                                     </div>
                                 </div>
 
                                 <!-- Provincial CPA Body -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
-                                        Please select the Primary CPA body you are a member of.*
+                                        Please select the Primary CPA body you are a member of. *
                                     </label>
                                     <select wire:model="demographicData.provincial_cpa_body"
                                             class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 shadow-sm transition-all duration-300 placeholder-gray-400 hover:border-blue-300 bg-select-chevron appearance-none">
@@ -395,21 +436,25 @@ to read the following and give us your consent</p>
                                         <option value="CPA Prince Edward Island">CPA Prince Edward Island</option>
                                         <option value="CPA Quebec">CPA Quebec</option>
                                         <option value="CPA Saskatchewan">CPA Saskatchewan</option>
-                                        <option value="Other">Other</option>
-                                        <option value="Other">None</option>
+                                        <option value="Northwest Territories & Nunavut">Northwest Territories & Nunavut</option>
+                                        <option value="Yukon">Yukon</option>
+                                        <option value="Bermuda">Bermuda</option>
+                                        <option value="CPA Canada">CPA Canada</option>
+                                        <option value="Other Accounting Body">Other Accounting Body</option>
+                                        <option value="None">None</option>
                                     </select>
                                 </div>
 
                                 <!-- Years Since Designation -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
-                                        Please state the year you obtained your first accounting designation (including legacy designation).
+                                        Please state the year you obtained your first accounting designation (including legacy designation). If you don't have an accounting designation, type "0".
                                     </label>
                                     <input type="number" wire:model="demographicData.years_designation"
                                            class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 shadow-sm transition-all duration-300 placeholder-gray-400 hover:border-blue-300"
                                            placeholder="Use numbers only">
                                 </div>
-                                <!-- Employment Information Section -->
+
                                 <!-- Industry -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
@@ -445,6 +490,7 @@ to read the following and give us your consent</p>
                                     </select>
                                 </div>
 
+                                <!-- Accounting Experience Years -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         How many years of accounting experience do you have? *
@@ -463,7 +509,6 @@ to read the following and give us your consent</p>
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
                                         Please indicate the number of staff (including yourself) in the organization you work for. If you are retired or unemployed, state number at your last employer.
-
                                     </label>
                                     <input type="number" wire:model="demographicData.number_staff"
                                            class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 shadow-sm transition-all duration-300 placeholder-gray-400 hover:border-blue-300"
@@ -498,6 +543,7 @@ to read the following and give us your consent</p>
                                         </label>
                                     </div>
                                 </div>
+
                                 <!-- Yearly Compensation -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
@@ -507,8 +553,6 @@ to read the following and give us your consent</p>
                                            class="w-full px-4 py-3 rounded-lg border-2 border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100 shadow-sm transition-all duration-300 placeholder-gray-400 hover:border-blue-300"
                                            placeholder="Use numbers only">
                                 </div>
-
-
 
                                 <!-- Job Title -->
                                 <div class="md:col-span-2 space-y-2">
@@ -543,7 +587,7 @@ to read the following and give us your consent</p>
                             </div>
                         </div>
 
-                        <!-- Step 4: Career Satisfaction Questions (now its own step) -->
+                        <!-- Step 4: Career Satisfaction Questions -->
                     @elseif($currentStep == 4)
                         <div class="space-y-6 mt-4">
                             <!-- Career Satisfaction Questions Section -->
@@ -603,8 +647,7 @@ to read the following and give us your consent</p>
                             @endforeach
                         </div>
 
-                        <!-- Step 5: EI Questions (now its own step) -->
-                        <!-- Step 5: EI Questions (now its own step) -->
+                        <!-- Step 5: EI Questions -->
                     @elseif($currentStep == 5)
                         <div class="space-y-6 mt-4">
                             <!-- EI Questions Section -->
@@ -640,9 +683,6 @@ to read the following and give us your consent</p>
                                     <p class="text-gray-700 mt-5 mb-4">
                                         When considering a response it is important not to think of the way you behaved in any one situation, rather your responses should be based on your typical behaviour. Also, some of the questions may not give all the information you would like to receive. If this is the case, please choose a response that seems most likely.
                                     </p>
-{{--                                    <p class="text-gray-700">--}}
-{{--                                        There is no time limit; however it should take between 15-25 minutes to complete.--}}
-{{--                                    </p>--}}
                                     <p class="text-gray-700">
                                         Please note that, although you are free to skip any question, the validity of the research findings and the accuracy of your EI score depends on the completeness of this survey.
                                     </p>
@@ -713,9 +753,6 @@ to read the following and give us your consent</p>
 
                             <div class="bg-white p-5 rounded-lg border border-gray-200 shadow-sm hover:border-blue-200 transition-colors duration-200">
                                 <div class="flex items-start mb-4">
-{{--                                    <div class="flex-shrink-0 bg-blue-600 text-white font-bold rounded-full w-8 h-8 flex items-center justify-center mr-3">--}}
-{{--                                        71--}}
-{{--                                    </div>--}}
                                     <p class="text-base font-medium text-gray-900">
                                         Please use the space below to capture your thoughts about the challenges and opportunities you see in your career as a professional accountant.
                                     </p>
@@ -770,12 +807,12 @@ to read the following and give us your consent</p>
     @endif
 
     <script>
-
         Livewire.on('scroll-to-top', () => {
             setTimeout(() => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }, 100); // 100ms delay
         });
+
         function copyToClipboard(text) {
             navigator.clipboard.writeText(text).then(() => {
                 const toast = document.createElement('div');

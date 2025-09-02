@@ -6,7 +6,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path>
             </svg>
         </div>
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">EI CPA Career Success Survey</h1>
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">EI & Accountants: Career Success Survey </h1>
         <!-- Winners Link -->
         <div class="mt-4">
             <a href="{{ route('winners.index') }}" class="inline-flex items-center px-5 py-2.5 text-sm font-medium rounded-lg bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 transition shadow-md hover:shadow-lg">
@@ -55,7 +55,42 @@
                         <h2 class="text-xl font-bold text-gray-900 tracking-tight mb-3 group-hover:text-blue-600 transition-colors">{{ $survey->title }}</h2>
 
                         <p class="text-gray-600 line-clamp-3 mb-6 leading-relaxed">
-                            {!! Str::markdown($survey->description) !!}
+{{--                            {!! Str::markdown($survey->description) !!}--}}
+                        <div class="bg-white rounded-2xl shadow-xl p-8 mb-12 border border-gray-100">
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">Why participate?</h2>
+                            <p class="text-gray-600 mb-6 leading-relaxed">
+                                In this era of AI and great complexity, EI is increasingly recognized as essential for leadership, communication, and long-term career growth. Yet, there's still much to learn about how it really affects a CPA's success. Your input will help fill that gap—and help guide future training, development, and support for CPAs across Canada.
+                            </p>
+
+                            <p class="text-gray-600 mb-4 font-medium">In appreciation of your time, you get the opportunity to:</p>
+
+                            <div class="space-y-3 text-gray-600">
+                                <p class="flex items-start">
+                                    <span class="text-blue-500 mr-2 mt-1">✅</span>
+                                    <span><strong>Assess</strong> your own EI using a comprehensive EI measuring instrument chosen for its externally validated reliability and predictive validity; this instrument was developed with the objective of measuring EI as exhibited in workplace behaviours</span>
+                                </p>
+
+                                <p class="flex items-start">
+                                    <span class="text-blue-500 mr-2 mt-1">✅</span>
+                                    <span><strong>Gain</strong> valuable insights into EI work-related behaviours that might be impacting your career success</span>
+                                </p>
+
+                                <p class="flex items-start">
+                                    <span class="text-blue-500 mr-2 mt-1">✅</span>
+                                    <span><strong>Provide</strong> data that will help you know how your EI compares with that of your peers'</span>
+                                </p>
+
+                                <p class="flex items-start">
+                                    <span class="text-blue-500 mr-2 mt-1">✅</span>
+                                    <span><strong>Share</strong> your valuable professional experience and <strong>Contribute</strong> to meaningful research that could make a real difference in the career success of accountants</span>
+                                </p>
+
+                                <p class="flex items-start">
+                                    <span class="text-blue-500 mr-2 mt-1">✅</span>
+                                    <span><strong>Win</strong> a $100 Visa Card (a token of our appreciation)</span>
+                                </p>
+                            </div>
+                        </div>
                         </p>
 
                         <!-- Card Footer -->
@@ -99,7 +134,7 @@
             <div class="bg-blue-50 p-4 rounded-lg">
                 <h2 class="font-bold text-gray-800 mb-2">About this Research</h2>
                 <p class="text-gray-600 text-sm leading-relaxed">
-                    This is a comprehensive PhD research study, by a Canadian CPA, through Andrews University. It investigates the influence of EI, moderated by variables such as age etc, on the career success of CPAs. Career success is measured both subjectively and objectively. <br> It is important that you complete all the questions as your responses will impact the validity of the findings.
+                    This is a comprehensive PhD research study, by a Canadian CPA, through Andrews University. It investigates the influence of EI on the career success of CPAs. <br> It is important that you complete all the questions as your responses will impact the validity of the findings.
                 </p>
                 <p class="text-gray-600 text-sm mt-2">
                     Participation is voluntary and all data collected will be used for research purposes only.

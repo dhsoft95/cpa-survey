@@ -12,7 +12,7 @@ class SurveyForm extends Component
 {
     public Survey $survey;
     public $currentStep = 1;
-    public $totalSteps = 5; // Using 5 steps total
+    public $totalSteps = 5;
     public $demographicQuestions = [];
     public $careerSatisfactionQuestions = [];
     public $eiQuestions = [];
@@ -48,6 +48,9 @@ class SurveyForm extends Component
     public $totalScore = 0;
     public $eiScores = [];
 
+    // Track completion status
+    public $demographicsCompleted = false;
+
     // Loading state
     public $isSubmitting = false;
 
@@ -71,6 +74,16 @@ class SurveyForm extends Component
         'esm' => [5, 19, 26, 33, 40, 47, 54, 61, 62, 69],
         'emo' => [6, 12, 13, 20, 27, 34, 41, 48, 55, 64],
         'esc' => [7, 14, 21, 28, 30, 35, 42, 49, 56, 68],
+    ];
+
+    // Required demographic fields for EI score eligibility
+    private $requiredDemographicFields = [
+        'birth_year',
+        'gender',
+        'provincial_cpa_body',
+        'work_nature',
+        'number_overseen',
+        'accounting_experience_years'
     ];
 
     public function mount(Survey $survey)
@@ -118,6 +131,30 @@ class SurveyForm extends Component
             . count($this->eiQuestions) . ' EI');
     }
 
+    /**
+     * Check if required demographic fields are completed
+     */
+    private function checkDemographicCompletion(): bool
+    {
+        foreach ($this->requiredDemographicFields as $field) {
+            if (empty($this->demographicData[$field])) {
+                return false;
+            }
+        }
+
+        // Also check if at least one language is selected
+        if (empty($this->demographicData['languages'])) {
+            return false;
+        }
+
+        // Check if at least one legacy designation is selected
+        if (empty($this->demographicData['legacy_designation'])) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function nextStep()
     {
         // Step 1: CPA member check
@@ -149,9 +186,17 @@ class SurveyForm extends Component
             // Emit an event when navigating to Step 3
             $this->dispatch('scroll-to-top');
         }
-        // Step 3: Demographics
+        // Step 3: Demographics - Check completion for EI score eligibility
         elseif ($this->currentStep == 3) {
-            // No validation required for demographics - users can skip questions
+            // Check if demographics are completed for EI score eligibility
+            $this->demographicsCompleted = $this->checkDemographicCompletion();
+
+            if ($this->demographicsCompleted) {
+                Log::info('Demographics completed - user eligible for EI scores');
+            } else {
+                Log::info('Demographics incomplete - user not eligible for EI scores but can continue');
+            }
+
             // Proceed to Career Satisfaction questions
             $this->currentStep = 4;
         }
@@ -176,6 +221,7 @@ class SurveyForm extends Component
         $this->currentStep = max(1, $this->currentStep - 1);
         $this->js('window.scrollTo({ top: 0, behavior: "smooth" })');
     }
+
     public function scrollTop(): void
     {
         $this->js('window.scrollTo({ top: 0, behavior: "smooth" })');
@@ -186,6 +232,11 @@ class SurveyForm extends Component
         $this->isSubmitting = true;
 
         Log::debug('Starting survey submission. includeAllQuestions=' . ($includeAllQuestions ? 'true' : 'false'));
+
+        // Always re-check demographics completion at submission time
+        $this->demographicsCompleted = $this->checkDemographicCompletion();
+
+        Log::debug('Demographics completed at submission: ' . ($this->demographicsCompleted ? 'true' : 'false'));
 
         $response = SurveyResponse::create([
             'survey_id' => $this->survey->id,
@@ -270,35 +321,47 @@ class SurveyForm extends Component
         Log::debug('Score data before calculation: ' . json_encode($scoreData));
         Log::debug('Number of EI questions: ' . count($this->eiQuestions));
 
-        // Check if we have any scores to calculate
+        // Check if we have any scores to calculate AND if demographics were completed
         if (empty($scoreData)) {
             Log::warning('No score data collected from responses!');
         }
 
-        // Calculate and store scores based on answered questions only
-        $this->calculateScores($scoreData);
+        // Only calculate and show scores if demographics were completed
+        if ($this->demographicsCompleted && !empty($scoreData)) {
+            // Calculate and store scores based on answered questions only
+            $this->calculateScores($scoreData);
 
-        // Calculate the total score
-        $totalScore = 0;
-        foreach ($this->eiScores as $scores) {
-            $totalScore += $scores['raw'];
+            // Calculate the total score
+            $totalScore = 0;
+            foreach ($this->eiScores as $scores) {
+                $totalScore += $scores['raw'];
+            }
+
+            Log::debug('Total EI score: ' . $totalScore);
+
+            // Store scores in response
+            $demographicData = $response->demographic_data;
+            $demographicData['ei_scores'] = $this->eiScores;
+            $demographicData['total_ei_score'] = $totalScore;
+            $demographicData['demographics_completed'] = true;
+            $response->update([
+                'demographic_data' => $demographicData,
+                'total_score' => $totalScore
+            ]);
+
+            // Set completion code and show scores
+            $this->totalScore = $totalScore;
+            $this->showScores = true;
+        } else {
+            // Store that demographics were not completed
+            $demographicData = $response->demographic_data;
+            $demographicData['demographics_completed'] = false;
+            $response->update(['demographic_data' => $demographicData]);
+
+            Log::info('Demographics not completed - EI scores not calculated');
         }
 
-        Log::debug('Total EI score: ' . $totalScore);
-
-        // Store scores in response
-        $demographicData = $response->demographic_data;
-        $demographicData['ei_scores'] = $this->eiScores;
-        $demographicData['total_ei_score'] = $totalScore;
-        $response->update([
-            'demographic_data' => $demographicData,
-            'total_score' => $totalScore
-        ]);
-
-        // Set completion code and show scores
         $this->completionCode = $response->completion_code;
-        $this->totalScore = $totalScore;
-        $this->showScores = true;
         $this->isSubmitting = false;
     }
 
