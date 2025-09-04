@@ -112,15 +112,15 @@
                     <h3 class="text-xl font-bold text-amber-700 mb-4 text-center">EI Scores Not Available</h3>
                     <div class="text-gray-700 space-y-3">
                         <p class="text-center">
-                            To receive your personalized Emotional Intelligence profile and scores, you need to complete the biographical and employment data section (Step 3).
+                            The biographical and employment data section was not fully completed.
                         </p>
                         <p class="text-center font-medium">
-                            Your survey responses have still been recorded and are valuable for our research.
+                            Thank you for your participation. Your survey responses have still been recorded and are valuable for our research.
                         </p>
                     </div>
                     <div class="text-sm text-gray-600 mt-4 bg-amber-50 p-4 rounded-lg">
                         <p class="font-medium mb-2">Why are demographic questions required for EI scores?</p>
-                        <p>The demographic information helps ensure the accuracy and validity of your EI assessment by providing essential context for score interpretation and comparison.</p>
+                        <p>The demographic information provides essential context for analyzing the data analysis.</p>
                     </div>
                 </div>
             @endif
@@ -250,14 +250,14 @@
                                 </p>
                                 <p class="mb-4">
                                     If you agree to take part in this study, you will be asked to complete an online questionnaire. This questionnaire will ask about biographical data, your perceived level of career success, and how you navigate through emotionally intelligent work-related situations. The bulk of the questions pertain to the assessment of EI. The EI specific questions use a comprehensive externally validated and accepted tool specifically designed to assess EI in practical work-place contexts.
-                                    We recognize that your time is extremely important. As a token of appreciation, the questionnaire has been setup so that you can potentially benefit from your participation. We believe that reading and responding to the EI specific questions will give you a greater sense of the type of work-related situations that are impacted by EI. Upon submission of the questionnaire, you will get a confidential EI score and EI profile with valuable insights into EI work-related behaviours that might be impacting your career success. The whole survey should take no more than 20 minutes to complete. You are encouraged to keep your EI score. At the end of the study, the summary of results will be shared to give you the opportunity to assess your score with those of your peers. <strong>Although you are free to skip any question, the accuracy of the EI score is dependent on the questions answered.</strong>
+                                    We recognize that your time is extremely important. As a token of appreciation, the questionnaire has been setup so that you can potentially benefit from your participation. We believe that reading and responding to the EI specific questions will give you a greater sense of the type of work-related situations that are impacted by EI. Upon submission of the questionnaire and required questions, you will get a confidential EI score and EI profile with valuable insights into EI work-related behaviours that might be impacting your career success. The whole survey should take no more than 20 minutes to complete. You are encouraged to keep your EI score. At the end of the study, the summary of results will be shared to give you the opportunity to assess your score with those of your peers. <strong>Although you are free to skip any question, the accuracy of the EI score is dependent on the questions answered.</strong>
                                 </p>
                                 <p class="mb-4">
                                     We recognize that your time is extremely important. As a token of appreciation, the questionnaire has been setup so that you can potentially benefit from your participation. We believe that reading and responding to the EI specific questions will give you a greater sense of the type of work-related situations that are impacted by EI. Upon submission of the questionnaire, you will get your individual EI scores. You are encouraged to keep your EI score. At the end of the study, the summary of results will be shared to give you the opportunity to assess your score with those of your peers. <strong>Although you are free to skip any question, the accuracy of the EI score is dependent on the questions answered.</strong>
                                 </p>
-                                <p class="mb-4">
-                                    Upon submission of the survey, you will be given an autogenerated number. Please keep this number. Winning numbers will be periodically drawn and published with instructions on how to claim your gift certificate. This survey is not collecting self identifying information; the onus will be on you to check if you won and to follow the instructions to claim your prize.
-                                </p>
+{{--                                <p class="mb-4">--}}
+{{--                                    Upon submission of the survey, you will be given an autogenerated number. Please keep this number. Winning numbers will be periodically drawn and published with instructions on how to claim your gift certificate. This survey is not collecting self identifying information; the onus will be on you to check if you won and to follow the instructions to claim your prize.--}}
+{{--                                </p>--}}
                                 <p class="mb-4">
                                     It is recognized that you may not directly benefit from this research, however, we hope that your participation in the study will (i) result in greater understanding of how EI impacts the career success of a professional accountant, (ii) help professional accountants assess their EI strengths, and take steps to address gaps (iii) help shape the future CPA curriculum, academic training, and CPA competency mapping.
                                 </p>
@@ -314,7 +314,7 @@
                                     <div>
                                         <p class="font-semibold text-amber-800 mb-1">Required for EI Score</p>
                                         <p class="text-gray-700">
-                                            To receive your personalized Emotional Intelligence profile and scores, please complete the required fields below marked with (*). You can still participate in the research without completing these fields, but you won't receive your EI assessment results.
+                                            The demographic and employment data information provides essential context for analyzing the data for this research. To receive your personalized EI score and profile, please complete all the questions in this section. You can still participate and provide valuable data.
                                         </p>
                                     </div>
                                 </div>
@@ -384,7 +384,7 @@
                                 <!-- Legacy Designation -->
                                 <div class="md:col-span-2 space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">
-                                        Please select all the qualifications that you have, including legacy designations. *
+                                        Please select all the post graduate or professional qualifications that you have, including legacy designations. *
                                     </label>
                                     <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
                                         <label class="flex items-center space-x-3 p-3 rounded-lg border-2 border-gray-200 hover:border-blue-400 bg-white hover:bg-blue-50 transition-all duration-200 cursor-pointer">

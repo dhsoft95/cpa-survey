@@ -417,7 +417,7 @@ class SurveyForm extends Component
         }
     }
 
-    public function render()
+    public function render(): object
     {
         return view('livewire.survey-form');
     }
